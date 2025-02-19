@@ -542,7 +542,3 @@ class Doctype:
 
     def __str__(self):
         return f"<!DOCTYPE html>"
-
-
-# [ ] start working on README: purpose, main functions, example of bare page, _attr/_tag fixes, problems with default values (especially "None"), sources, what could be improved.
-# [ ] sync it to GH.
