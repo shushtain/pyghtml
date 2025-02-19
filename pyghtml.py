@@ -1,7 +1,7 @@
 class _Global:
     """The highest-order parent class of all other elements that stores global attributes. Returns tag None. Don't use in production."""
 
-    __tag = None
+    _tag = None
 
     def __init__(
         self,
@@ -19,6 +19,7 @@ class _Global:
         dir: str = None,
         draggable: str = None,
         enterkeyhint: str = None,
+        event_attributes: dict = None,
         exportparts: str = None,
         hidden: bool = False,
         id: str = None,
@@ -57,6 +58,7 @@ class _Global:
         self.dir = dir
         self.draggable = draggable
         self.enterkeyhint = enterkeyhint
+        self.event_attributes = event_attributes
         self.exportparts = exportparts
         self.hidden = hidden
         self.id = id
@@ -159,8 +161,6 @@ class _Global:
         return self._data_attributes[1]
 
     @data_attributes.setter
-    # must be a dict {"data-custom-name": "value"}
-    # converted into data-custom-name="value"
     def data_attributes(self, data_attributes):
         self._data_attributes = [None, data_attributes, ""]
 
@@ -187,6 +187,14 @@ class _Global:
     @enterkeyhint.setter
     def enterkeyhint(self, enterkeyhint):
         self._enterkeyhint = [None, enterkeyhint, "enterkeyhint"]
+
+    @property
+    def event_attributes(self):
+        return self._event_attributes[1]
+
+    @event_attributes.setter
+    def event_attributes(self, event_attributes):
+        self._event_attributes = [None, event_attributes, "event_attributes"]
 
     @property
     def exportparts(self):
@@ -407,7 +415,7 @@ class _Global:
 
     def __str__(self):
 
-        tag = str(self.__class__.__tag)
+        tag = str(self.__class__._tag)
 
         attrs = ""
         for key, value in self.__dict__.items():
@@ -416,10 +424,8 @@ class _Global:
         return f"<{tag}{attrs} />"
 
 
-class __Container_tags(_Global):
+class _Container(_Global):
     """The parent class of all container elements. Returns tag None. Don't use in production."""
-
-    __tag = None
 
     def __init__(
         self,
@@ -437,6 +443,7 @@ class __Container_tags(_Global):
         dir=None,
         draggable=None,
         enterkeyhint=None,
+        event_attributes=None,
         exportparts=None,
         hidden=False,
         id=None,
@@ -477,6 +484,7 @@ class __Container_tags(_Global):
             dir=dir,
             draggable=draggable,
             enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
             exportparts=exportparts,
             hidden=hidden,
             id=id,
@@ -514,7 +522,7 @@ class __Container_tags(_Global):
 
     def __str__(self):
 
-        tag = str(self.__class__.__tag)
+        tag = str(self.__class__._tag)
 
         innerHTML = ""
         for elem in self.innerHTML:
@@ -542,3 +550,3236 @@ class Doctype:
 
     def __str__(self):
         return f"<!DOCTYPE html>"
+
+
+class A(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        attributionsrc: bool | str = None,
+        download: bool | str = False,
+        href: str = None,
+        hreflang: str = None,
+        ping: str = None,
+        referrerpolicy: str = None,
+        rel: str = None,
+        target: str = None,
+        type: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.attributionsrc = attributionsrc
+        self.download = download
+        self.href = href
+        self.hreflang = hreflang
+        self.ping = ping
+        self.referrerpolicy = referrerpolicy
+        self.rel = rel
+        self.target = target
+        self.type = type
+
+    @property
+    def attributionsrc(self):
+        return self._attributionsrc[1]
+
+    @attributionsrc.setter
+    def attributionsrc(self, attributionsrc):
+        self._attributionsrc = [None, attributionsrc, "attributionsrc"]
+
+    @property
+    def download(self):
+        return self._download[1]
+
+    @download.setter
+    def download(self, download):
+        self._download = [False, download, "download"]
+
+    @property
+    def href(self):
+        return self._href[1]
+
+    @href.setter
+    def href(self, href):
+        self._href = [None, href, "href"]
+
+    @property
+    def hreflang(self):
+        return self._hreflang[1]
+
+    @hreflang.setter
+    def hreflang(self, hreflang):
+        self._hreflang = [None, hreflang, "hreflang"]
+
+    @property
+    def ping(self):
+        return self._ping[1]
+
+    @ping.setter
+    def ping(self, ping):
+        self._ping = [None, ping, "ping"]
+
+    @property
+    def referrerpolicy(self):
+        return self._referrerpolicy[1]
+
+    @referrerpolicy.setter
+    def referrerpolicy(self, referrerpolicy):
+        self._referrerpolicy = [None, referrerpolicy, "referrerpolicy"]
+
+    @property
+    def rel(self):
+        return self._rel[1]
+
+    @rel.setter
+    def rel(self, rel):
+        self._rel = [None, rel, "rel"]
+
+    @property
+    def target(self):
+        return self._target[1]
+
+    @target.setter
+    def target(self, target):
+        self._target = [None, target, "target"]
+
+    @property
+    def type(self):
+        return self._type[1]
+
+    @type.setter
+    def type(self, type):
+        self._type = [None, type, "type"]
+
+
+class Attr(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Address(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Area(_Global):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        alt: str = None,
+        coords: str = None,
+        download: bool | str = False,
+        href: str = None,
+        ping: str = None,
+        referrerpolicy: str = None,
+        rel: str = None,
+        shape: str = None,
+        target: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+        )
+        self.alt = alt
+        self.coords = coords
+        self.download = download
+        self.href = href
+        self.ping = ping
+        self.referrerpolicy = referrerpolicy
+        self.rel = rel
+        self.shape = shape
+        self.target = target
+
+    @property
+    def alt(self):
+        return self._alt[1]
+
+    @alt.setter
+    def alt(self, alt):
+        self._alt = [None, alt, "alt"]
+
+    @property
+    def coords(self):
+        return self._coords[1]
+
+    @coords.setter
+    def coords(self, coords):
+        self._coords = [None, coords, "coords"]
+
+    @property
+    def download(self):
+        return self._download[1]
+
+    @download.setter
+    def download(self, download):
+        self._download = [False, download, "download"]
+
+    @property
+    def href(self):
+        return self._href[1]
+
+    @href.setter
+    def href(self, href):
+        self._href = [None, href, "href"]
+
+    @property
+    def ping(self):
+        return self._ping[1]
+
+    @ping.setter
+    def ping(self, ping):
+        self._ping = [None, ping, "ping"]
+
+    @property
+    def referrerpolicy(self):
+        return self._referrerpolicy[1]
+
+    @referrerpolicy.setter
+    def referrerpolicy(self, referrerpolicy):
+        self._referrerpolicy = [None, referrerpolicy, "referrerpolicy"]
+
+    @property
+    def rel(self):
+        return self._rel[1]
+
+    @rel.setter
+    def rel(self, rel):
+        self._rel = [None, rel, "rel"]
+
+    @property
+    def shape(self):
+        return self._shape[1]
+
+    @shape.setter
+    def shape(self, shape):
+        self._shape = [None, shape, "shape"]
+
+    @property
+    def target(self):
+        return self._target[1]
+
+    @target.setter
+    def target(self, target):
+        self._target = [None, target, "target"]
+
+
+class Article(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Aside(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Audio(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        autoplay: bool = False,
+        controls: bool = False,
+        controlslist: str = None,
+        crossorigin: str = None,
+        disableremoteplayback: bool = False,
+        loop: bool = False,
+        muted: bool = False,
+        preload: str = None,
+        src: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.autoplay = autoplay
+        self.controls = controls
+        self.controlslist = controlslist
+        self.crossorigin = crossorigin
+        self.disableremoteplayback = disableremoteplayback
+        self.loop = loop
+        self.muted = muted
+        self.preload = preload
+        self.src = src
+
+    @property
+    def autoplay(self):
+        return self._autoplay[1]
+
+    @autoplay.setter
+    def autoplay(self, autoplay):
+        self._autoplay = [False, autoplay, "autoplay"]
+
+    @property
+    def controls(self):
+        return self._controls[1]
+
+    @controls.setter
+    def controls(self, controls):
+        self._controls = [False, controls, "controls"]
+
+    @property
+    def controlslist(self):
+        return self._controlslist[1]
+
+    @controlslist.setter
+    def controlslist(self, controlslist):
+        self._controlslist = [None, controlslist, "controlslist"]
+
+    @property
+    def crossorigin(self):
+        return self._crossorigin[1]
+
+    @crossorigin.setter
+    def crossorigin(self, crossorigin):
+        self._crossorigin = [None, crossorigin, "crossorigin"]
+
+    @property
+    def disableremoteplayback(self):
+        return self._disableremoteplayback[1]
+
+    @disableremoteplayback.setter
+    def disableremoteplayback(self, disableremoteplayback):
+        self._disableremoteplayback = [
+            False,
+            disableremoteplayback,
+            "disableremoteplayback",
+        ]
+
+    @property
+    def loop(self):
+        return self._loop[1]
+
+    @loop.setter
+    def loop(self, loop):
+        self._loop = [False, loop, "loop"]
+
+    @property
+    def muted(self):
+        return self._muted[1]
+
+    @muted.setter
+    def muted(self, muted):
+        self._muted = [False, muted, "muted"]
+
+    @property
+    def preload(self):
+        return self._preload[1]
+
+    @preload.setter
+    def preload(self, preload):
+        self._preload = [None, preload, "preload"]
+
+    @property
+    def src(self):
+        return self._src[1]
+
+    @src.setter
+    def src(self, src):
+        self._src = [None, src, "src"]
+
+
+class B(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Base(_Global):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        href: str = None,
+        target: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+        )
+        self.href = href
+        self.target = target
+
+    @property
+    def href(self):
+        return self._href[1]
+
+    @href.setter
+    def href(self, href):
+        self._href = [None, href, "href"]
+
+    @property
+    def target(self):
+        return self._target[1]
+
+    @target.setter
+    def target(self, target):
+        self._target = [None, target, "target"]
+
+
+class Bdi(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Bdo(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Blockquote(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        cite: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.cite = cite
+
+    @property
+    def cite(self):
+        return self._cite[1]
+
+    @cite.setter
+    def cite(self, cite):
+        self._cite = [None, cite, "cite"]
+
+
+class Body(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Br(_Global):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+        )
+
+
+class Button(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        command: str = None,
+        commandfor: str = None,
+        disabled: bool = False,
+        form: str = None,
+        formaction: str = None,
+        formenctype: str = None,
+        formmethod: str = None,
+        formnovalidate: bool = False,
+        formtarget: str = None,
+        name: str = None,
+        popovertarget: str = None,
+        popovertargetaction: str = None,
+        type: str = None,
+        value: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.command = command
+        self.commandfor = commandfor
+        self.disabled = disabled
+        self.form = form
+        self.formaction = formaction
+        self.formenctype = formenctype
+        self.formmethod = formmethod
+        self.formnovalidate = formnovalidate
+        self.formtarget = formtarget
+        self.name = name
+        self.popovertarget = popovertarget
+        self.popovertargetaction = popovertargetaction
+        self.type = type
+        self.value = value
+
+    @property
+    def command(self):
+        return self._command[1]
+
+    @command.setter
+    def command(self, command):
+        self._command = [None, command, "command"]
+
+    @property
+    def commandfor(self):
+        return self._commandfor[1]
+
+    @commandfor.setter
+    def commandfor(self, commandfor):
+        self._commandfor = [None, commandfor, "commandfor"]
+
+    @property
+    def disabled(self):
+        return self._disabled[1]
+
+    @disabled.setter
+    def disabled(self, disabled):
+        self._disabled = [False, disabled, "disabled"]
+
+    @property
+    def form(self):
+        return self._form[1]
+
+    @form.setter
+    def form(self, form):
+        self._form = [None, form, "form"]
+
+    @property
+    def formaction(self):
+        return self._formaction[1]
+
+    @formaction.setter
+    def formaction(self, formaction):
+        self._formaction = [None, formaction, "formaction"]
+
+    @property
+    def formenctype(self):
+        return self._formenctype[1]
+
+    @formenctype.setter
+    def formenctype(self, formenctype):
+        self._formenctype = [None, formenctype, "formenctype"]
+
+    @property
+    def formmethod(self):
+        return self._formmethod[1]
+
+    @formmethod.setter
+    def formmethod(self, formmethod):
+        self._formmethod = [None, formmethod, "formmethod"]
+
+    @property
+    def formnovalidate(self):
+        return self._formnovalidate[1]
+
+    @formnovalidate.setter
+    def formnovalidate(self, formnovalidate):
+        self._formnovalidate = [False, formnovalidate, "formnovalidate"]
+
+    @property
+    def formtarget(self):
+        return self._formtarget[1]
+
+    @formtarget.setter
+    def formtarget(self, formtarget):
+        self._formtarget = [None, formtarget, "formtarget"]
+
+    @property
+    def name(self):
+        return self._name[1]
+
+    @name.setter
+    def name(self, name):
+        self._name = [None, name, "name"]
+
+    @property
+    def popovertarget(self):
+        return self._popovertarget[1]
+
+    @popovertarget.setter
+    def popovertarget(self, popovertarget):
+        self._popovertarget = [None, popovertarget, "popovertarget"]
+
+    @property
+    def popovertargetaction(self):
+        return self._popovertargetaction[1]
+
+    @popovertargetaction.setter
+    def popovertargetaction(self, popovertargetaction):
+        self._popovertargetaction = [None, popovertargetaction, "popovertargetaction"]
+
+    @property
+    def type(self):
+        return self._type[1]
+
+    @type.setter
+    def type(self, type):
+        self._type = [None, type, "type"]
+
+    @property
+    def value(self):
+        return self._value[1]
+
+    @value.setter
+    def value(self, value):
+        self._value = [None, value, "value"]
+
+
+class Canvas(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        height: str = None,
+        width: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.height = height
+        self.width = width
+
+    @property
+    def height(self):
+        return self._height[1]
+
+    @height.setter
+    def height(self, height):
+        self._height = [None, height, "height"]
+
+    @property
+    def width(self):
+        return self._width[1]
+
+    @width.setter
+    def width(self, width):
+        self._width = [None, width, "width"]
+
+
+class Caption(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Cite(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Code(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Col(_Global):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        span: str = "1",
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+        )
+        self.span = span
+
+    @property
+    def span(self):
+        return self._span[1]
+
+    @span.setter
+    def span(self, span):
+        self._span = ["1", span, "span"]
+
+
+class Colgroup(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        span: str = "1",
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.span = span
+
+    @property
+    def span(self):
+        return self._span[1]
+
+    @span.setter
+    def span(self, span):
+        self._span = ["1", span, "span"]
+
+
+class Data(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        value: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value[1]
+
+    @value.setter
+    def value(self, value):
+        self._value = [None, value, "value"]
+
+
+class Datalist(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Dd(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Del(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        cite: str = None,
+        datetime: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.cite = cite
+        self.datetime = datetime
+
+    @property
+    def cite(self):
+        return self._cite[1]
+
+    @cite.setter
+    def cite(self, cite):
+        self._cite = [None, cite, "cite"]
+
+    @property
+    def datetime(self):
+        return self._datetime[1]
+
+    @datetime.setter
+    def datetime(self, datetime):
+        self._datetime = [None, datetime, "datetime"]
+
+
+class Details(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        open: bool = False,
+        name: str = None,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.open = open
+        self.name = name
+
+    @property
+    def open(self):
+        return self._open[1]
+
+    @open.setter
+    def open(self, open):
+        self._open = [False, open, "open"]
+
+    @property
+    def name(self):
+        return self._name[1]
+
+    @name.setter
+    def name(self, name):
+        self._name = [None, name, "name"]
+
+
+class Dfn(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Dialog(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+        open: bool = False,
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+        self.open = open
+
+    @property
+    def open(self):
+        return self._open[1]
+
+    @open.setter
+    def open(self, open):
+        self._open = [False, open, "open"]
+
+
+class Div(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Dl(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )
+
+
+class Dt(_Container):
+    def __init__(
+        self,
+        *,
+        accesskey=None,
+        anchor=None,
+        aria_attributes=None,
+        autocapitalize="none",
+        autocorrect="on",
+        autofocus=False,
+        class_attr=None,
+        contenteditable=None,
+        custom_attributes=None,
+        data_attributes=None,
+        dir=None,
+        draggable=None,
+        enterkeyhint=None,
+        event_attributes=None,
+        exportparts=None,
+        hidden=False,
+        id=None,
+        inert=False,
+        inputmode=None,
+        is_attr=None,
+        itemid=None,
+        itemprop=None,
+        itemref=None,
+        itemscope=False,
+        itemtype=None,
+        lang=None,
+        nonce=None,
+        part=None,
+        popover=None,
+        role=None,
+        slot=None,
+        spellcheck="true",
+        style=None,
+        tabindex=None,
+        title=None,
+        translate="yes",
+        virtualkeyboardpolicy=None,
+        writingsuggestions="true",
+        innerHTML=[],
+    ):
+        super().__init__(
+            accesskey=accesskey,
+            anchor=anchor,
+            aria_attributes=aria_attributes,
+            autocapitalize=autocapitalize,
+            autocorrect=autocorrect,
+            autofocus=autofocus,
+            class_attr=class_attr,
+            contenteditable=contenteditable,
+            custom_attributes=custom_attributes,
+            data_attributes=data_attributes,
+            dir=dir,
+            draggable=draggable,
+            enterkeyhint=enterkeyhint,
+            event_attributes=event_attributes,
+            exportparts=exportparts,
+            hidden=hidden,
+            id=id,
+            inert=inert,
+            inputmode=inputmode,
+            is_attr=is_attr,
+            itemid=itemid,
+            itemprop=itemprop,
+            itemref=itemref,
+            itemscope=itemscope,
+            itemtype=itemtype,
+            lang=lang,
+            nonce=nonce,
+            part=part,
+            popover=popover,
+            role=role,
+            slot=slot,
+            spellcheck=spellcheck,
+            style=style,
+            tabindex=tabindex,
+            title=title,
+            translate=translate,
+            virtualkeyboardpolicy=virtualkeyboardpolicy,
+            writingsuggestions=writingsuggestions,
+            innerHTML=innerHTML,
+        )

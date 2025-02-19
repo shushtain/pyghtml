@@ -1,10 +1,8 @@
 # pyghtml
 
-Python HTML library
+Python-Generated HTML
 
-## State: Alpha
-
-⚠️ Not all tags are added yet.
+> ⚠️ **The library is in development**: Not all tags are added yet.
 
 ## Idea
 
@@ -55,6 +53,7 @@ results in:
 - Future or present HTML tags that match Python reserved words are suffixed with `_tag`.
 - Self-closing tags are self-closing (`<br />`).
 - `data-*` attributes should be given as `data_attributes = {"data-custom-name": "custom value"}`.
+- Event attributes (`onclick`, `onfocus`, etc) should be given similarly, through `event_attributes`. This was done to shorten the code.
 - The same logic applies to `aria-*` attributes. Although their variety is finite, their behavior is connected to the global attribute `role` in ways I refuse to understand.
 - There is an option to add custom enumerate and boolean attributes through `custom_attributes = {"custom1": "value", "custom2": True}`.
 - If the attribute's default value is `None`, that usually means there is no clear default value for it in the HTML specification (like the values controlled by the client-side agents when omitted).
