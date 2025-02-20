@@ -2,34 +2,35 @@
 
 Python-Generated HTML
 
-> ⚠️ **The library is in development**: Not all tags are added yet.
+> ⚠️ **The library is in active development**: Not all tags are added yet.  
+> 💩 I'm not a skilled programmer. Any help or critique is encouraged.
 
 ## Idea
 
-This library was born when I needed to convert hundreds of English lesson plans from JSON to a static website.
+This library was born when I needed to convert hundreds of English lesson plans from JSON to a static website. I didn't want to learn how to set up a server just to compile some pages. And I don't know PHP, even if I wanted to use it. So this library consists of HTML tags as Python classes, with attributes as class properties. This way you can create "cleaner" templates.
 
-I didn't want to learn how to set up a server just to compile some pages. And I don't know PHP, even if I wanted to use it.
-
-So this library consists of HTML tags as Python classes, with attributes as class properties. This way you can create "cleaner" templates.
+> ☝️ It's pie-tea-em-el, actually.
 
 ## Core functionality
 
 ### Attribute types and defaults
+
+Boolean Python values behave according to the logic of boolean HTML attributes. `autofocus` is turned off by default, so `autofocus=False` doesn't lead to redundancies.
 
 ```python
 a = pyghtml.A(href="1.jpg", disabled=True, autofocus=False)
 print(a)
 ```
 
-results in:
+produces:
 
 ```html
 <a href="1.jpg" disabled />
 ```
 
-Boolean Python values behave according to the logic of boolean HTML attributes. `autofocus` is turned off by default, so `autofocus=False` doesn't lead to redundancies.
-
 ### Simple container logic
+
+Both `__add__` and `__iadd__` append the element on the right to the `innerHTML` property of the element on the left. So you can use `+` or `+=` to put something inside a "tag".
 
 ```python
 html = pyghtml.Html()
@@ -37,7 +38,7 @@ html += pyghtml.Body(innerHTML=["Hello!"])
 print(html)
 ```
 
-results in:
+produces:
 
 ```html
 <html>
@@ -60,8 +61,8 @@ results in:
 
 ## Sources
 
-- MDN Web Docs
-- HTML Spec
+- [HTML Spec][def2]
+- [MDN Web Docs][def]
 
 ## What could be improved
 
@@ -70,3 +71,6 @@ results in:
 - [ ] Add specs for all attributes
 - [ ] Add validation to each property
 - [ ] Pack it for pip
+
+[def]: https://developer.mozilla.org/en-US/docs/Web/HTML
+[def2]: https://html.spec.whatwg.org/
