@@ -43,6 +43,8 @@ class _Tag(
     a.Virtualkeyboardpolicy,
     a.Writingsuggestions,
 ):
+    """The highest-level parent class of all other elements that stores global attributes. Returns tag None. Don't use in production."""
+
     _tag = None
 
     def __str__(self):
@@ -58,6 +60,7 @@ class _Tag(
 
 @dataclass
 class _Container(_Tag, a.InnerHTML):
+    """The parent class of all container elements. Returns tag None. Don't use in production."""
 
     def __str__(self):
 
@@ -72,7 +75,9 @@ class _Container(_Tag, a.InnerHTML):
                 if key == "innerHTML":
                     continue
                 if key in cls.__dict__:
-                    attrs += f" {str(cls(value))}"
+                    temp = f"{str(cls(value))}"
+                    if temp != "":
+                        attrs += f" {temp}"
 
         return f"<{tag}{attrs}>{inner_html}</{tag}>"
 

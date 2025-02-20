@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 @dataclass
 class _Attr:
-    def __str__(self, html_name, default_value) -> str:
+    def __str__(self, html_name, default_value, sep=" ") -> str:
         str_out = ""
         for attr_key, attr_value in self.__dict__.items():
 
@@ -29,7 +29,7 @@ class _Attr:
                 continue
 
             if isinstance(attr_value, list):
-                temp = " ".join(str(x) for x in attr_value)
+                temp = sep.join(str(x) for x in attr_value)
                 str_out += f' {html_name}="{temp}"'
                 continue
 
@@ -384,8 +384,8 @@ class Inert(_Bool):
 class InnerHTML:
     innerHTML: list = field(default_factory=list)
 
-    def __str__(self) -> str:
-        return " ".join(str(x) for x in self.innerHTML)
+    def __str__(self, sep="") -> str:
+        return sep.join(str(x) for x in self.innerHTML)
 
 
 @dataclass
