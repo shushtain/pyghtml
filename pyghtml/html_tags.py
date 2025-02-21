@@ -1,47 +1,47 @@
 from dataclasses import dataclass, replace
-import html_attributes as a
+import html_attributes as attr
 
 
 @dataclass
 class _Tag(
-    a.Accesskey,
-    a.Anchor,
-    a.Aria_attrs,
-    a.Autocapitalize,
-    a.Autocorrect,
-    a.Autofocus,
-    a.Class_attr,
-    a.Contenteditable,
-    a.Custom_attrs,
-    a.Data_attrs,
-    a.Dir,
-    a.Draggable,
-    a.Enterkeyhint,
-    a.Event_attrs,
-    a.Exportparts,
-    a.Hidden,
-    a.Id,
-    a.Inert,
-    a.Inputmode,
-    a.Is_attr,
-    a.Itemid,
-    a.Itemprop,
-    a.Itemref,
-    a.Itemscope,
-    a.Itemtype,
-    a.Lang,
-    a.Nonce,
-    a.Part,
-    a.Popover,
-    a.Role,
-    a.Slot,
-    a.Spellcheck,
-    a.Style,
-    a.Tabindex,
-    a.Title,
-    a.Translate,
-    a.Virtualkeyboardpolicy,
-    a.Writingsuggestions,
+    attr.Accesskey,
+    attr.Anchor,
+    attr.Aria_attrs,
+    attr.Autocapitalize,
+    attr.Autocorrect,
+    attr.Autofocus,
+    attr.Class_attr,
+    attr.Contenteditable,
+    attr.Custom_attrs,
+    attr.Data_attrs,
+    attr.Dir,
+    attr.Draggable,
+    attr.Enterkeyhint,
+    attr.Event_attrs,
+    attr.Exportparts,
+    attr.Hidden,
+    attr.Id,
+    attr.Inert,
+    attr.Inputmode,
+    attr.Is_attr,
+    attr.Itemid,
+    attr.Itemprop,
+    attr.Itemref,
+    attr.Itemscope,
+    attr.Itemtype,
+    attr.Lang,
+    attr.Nonce,
+    attr.Part,
+    attr.Popover,
+    attr.Role,
+    attr.Slot,
+    attr.Spellcheck,
+    attr.Style,
+    attr.Tabindex,
+    attr.Title,
+    attr.Translate,
+    attr.Virtualkeyboardpolicy,
+    attr.Writingsuggestions,
 ):
     """The highest-level parent class of all other elements that stores global attributes. Returns tag None. Don't use in production."""
 
@@ -52,21 +52,26 @@ class _Tag(
         tag = str(self.__class__._tag)
 
         attrs = ""
-        for key, value in self.__dict__.items():
-            attrs += f" {str(value)}"
+
+        for cls in self.__class__.mro():
+            for key, value in self.__dict__.items():
+                if key in cls.__dict__:
+                    temp = f"{str(cls(value))}"
+                    if temp != "":
+                        attrs += f" {temp}"
 
         return f"<{tag}{attrs} />"
 
 
 @dataclass
-class _Container(_Tag, a.InnerHTML):
+class _Container(_Tag, attr.InnerHTML):
     """The parent class of all container elements. Returns tag None. Don't use in production."""
 
     def __str__(self):
 
         tag = str(self.__class__._tag)
 
-        inner_html = a.InnerHTML.__str__(self)
+        inner_html = attr.InnerHTML.__str__(self)
 
         attrs = ""
 
@@ -100,15 +105,15 @@ class Doctype:
 @dataclass
 class A(
     _Container,
-    a.Attributionsrc,
-    a.Download,
-    a.Href,
-    a.Hreflang,
-    a.Ping,
-    a.Referrerpolicy,
-    a.Rel,
-    a.Target,
-    a.Type,
+    attr.Attributionsrc,
+    attr.Download,
+    attr.Href,
+    attr.Hreflang,
+    attr.Ping,
+    attr.Referrerpolicy,
+    attr.Rel,
+    attr.Target,
+    attr.Type,
 ):
     _tag = "a"
 
@@ -126,15 +131,15 @@ class Address(_Container):
 @dataclass
 class Area(
     _Tag,
-    a.Alt,
-    a.Coords,
-    a.Download,
-    a.Href,
-    a.Ping,
-    a.Referrerpolicy,
-    a.Rel,
-    a.Shape,
-    a.Target,
+    attr.Alt,
+    attr.Coords,
+    attr.Download,
+    attr.Href,
+    attr.Ping,
+    attr.Referrerpolicy,
+    attr.Rel,
+    attr.Shape,
+    attr.Target,
 ):
     _tag = "area"
 
@@ -152,15 +157,15 @@ class Aside(_Container):
 @dataclass
 class Audio(
     _Container,
-    a.Autoplay,
-    a.Controls,
-    a.Controlslist,
-    a.Crossorigin,
-    a.Disableremoteplayback,
-    a.Loop,
-    a.Muted,
-    a.Preload,
-    a.Src,
+    attr.Autoplay,
+    attr.Controls,
+    attr.Controlslist,
+    attr.Crossorigin,
+    attr.Disableremoteplayback,
+    attr.Loop,
+    attr.Muted,
+    attr.Preload,
+    attr.Src,
 ):
     _tag = "audio"
 
@@ -171,131 +176,848 @@ class B(_Container):
 
 
 @dataclass
-class Base(_Tag, a.Href, a.Target):
+class Base(
+    _Tag,
+    attr.Href,
+    attr.Target,
+):
     _tag = "base"
 
 
 @dataclass
-class bdi(_Container):
+class Bdi(_Container):
     _tag = "bdi"
 
 
 @dataclass
-class bdo(_Container):
+class Bdo(_Container):
     _tag = "bdo"
 
 
 @dataclass
-class blockquote(_Container, a.Cite):
+class Blockquote(
+    _Container,
+    attr.Cite,
+):
     _tag = "blockquote"
 
 
 @dataclass
-class body(_Container):
+class Body(_Container):
     _tag = "body"
 
 
 @dataclass
-class br(_Tag):
+class Br(_Tag):
     _tag = "br"
 
 
 @dataclass
-class button(
+class Button(
     _Container,
-    a.Command,
-    a.Commandfor,
-    a.Disabled,
-    a.Form,
-    a.Formaction,
-    a.Formenctype,
-    a.Formmethod,
-    a.Formnovalidate,
-    a.Formtarget,
-    a.Name,
-    a.Popovertarget,
-    a.Popovertargetaction,
-    a.Type,
-    a.Value,
+    attr.Command,
+    attr.Commandfor,
+    attr.Disabled,
+    attr.Form,
+    attr.Formaction,
+    attr.Formenctype,
+    attr.Formmethod,
+    attr.Formnovalidate,
+    attr.Formtarget,
+    attr.Name,
+    attr.Popovertarget,
+    attr.Popovertargetaction,
+    attr.Type,
+    attr.Value,
 ):
     _tag = "button"
 
 
 @dataclass
-class canvas(_Container, a.Height, a.Width):
+class Canvas(
+    _Container,
+    attr.Height,
+    attr.Width,
+):
     _tag = "canvas"
 
 
 @dataclass
-class caption(_Container):
+class Caption(_Container):
     _tag = "caption"
 
 
 @dataclass
-class cite(_Container):
+class Cite(_Container):
     _tag = "cite"
 
 
 @dataclass
-class code(_Container):
+class Code(_Container):
     _tag = "code"
 
 
 @dataclass
-class col(_Tag, a.Span):
+class Col(_Tag, attr.Span):
     _tag = "col"
 
 
 @dataclass
-class colgroup(_Container, a.Span):
+class Colgroup(
+    _Container,
+    attr.Span,
+):
     _tag = "colgroup"
 
 
 @dataclass
-class data(_Container, a.Value):
+class Data(
+    _Container,
+    attr.Value,
+):
     _tag = "data"
 
 
 @dataclass
-class datalist(_Container):
+class Datalist(_Container):
     _tag = "datalist"
 
 
 @dataclass
-class dd(_Container):
+class Dd(_Container):
     _tag = "dd"
 
 
 @dataclass
-class Del(_Container, a.Cite, a.Datetime):
+class Del(
+    _Container,
+    attr.Cite,
+    attr.Datetime,
+):
     _tag = "del"
 
 
 @dataclass
-class details(_Container, a.Open, a.Name):
+class Details(
+    _Container,
+    attr.Open,
+    attr.Name,
+):
     _tag = "details"
 
 
 @dataclass
-class dfn(_Container):
+class Dfn(_Container):
     _tag = "dfn"
 
 
 @dataclass
-class dialog(_Container, a.Open):
+class Dialog(
+    _Container,
+    attr.Open,
+):
     _tag = "dialog"
 
 
 @dataclass
-class div(_Container):
+class Div(_Container):
     _tag = "div"
 
 
 @dataclass
-class dl(_Container):
+class Dl(_Container):
     _tag = "dl"
 
 
 @dataclass
-class dt(_Container):
+class Dt(_Container):
     _tag = "dt"
+
+
+@dataclass
+class Em(_Container):
+    _tag = "em"
+
+
+@dataclass
+class Embed(
+    _Tag,
+    attr.Height,
+    attr.Src,
+    attr.Type,
+    attr.Width,
+):
+    _tag = "embed"
+
+
+@dataclass
+class Fencedframe(
+    _Container,
+    attr.Allow,
+    attr.Height,
+    attr.Width,
+):
+    _tag = "fencedframe"
+
+
+@dataclass
+class Fieldset(
+    _Container,
+    attr.Disabled,
+    attr.Form,
+    attr.Name,
+):
+    _tag = "fieldset"
+
+
+@dataclass
+class Figcaption(_Container):
+    _tag = "figcaption"
+
+
+@dataclass
+class Figure(_Container):
+    _tag = "figure"
+
+
+@dataclass
+class Footer(_Container):
+    _tag = "footer"
+
+
+@dataclass
+class Form(
+    _Container,
+    attr.Accept_charset,
+    attr.Autocomplete,
+    attr.Name,
+    attr.Rel,
+    attr.Action,
+    attr.Enctype,
+    attr.Method,
+    attr.Novalidate,
+    attr.Target,
+):
+    _tag = "form"
+
+
+@dataclass
+class H1(_Container):
+    _tag = "h1"
+
+
+@dataclass
+class H2(_Container):
+    _tag = "h2"
+
+
+@dataclass
+class H3(_Container):
+    _tag = "h3"
+
+
+@dataclass
+class H4(_Container):
+    _tag = "h4"
+
+
+@dataclass
+class H5(_Container):
+    _tag = "h5"
+
+
+@dataclass
+class H6(_Container):
+    _tag = "h6"
+
+
+@dataclass
+class Head(_Container):
+    _tag = "head"
+
+
+@dataclass
+class Header(_Container):
+    _tag = "header"
+
+
+@dataclass
+class Hgroup(_Container):
+    _tag = "hgroup"
+
+
+@dataclass
+class Hr(_Tag):
+    _tag = "hr"
+
+
+@dataclass
+class Html(
+    _Container,
+    attr.Xmlns,
+):
+    _tag = "html"
+
+
+@dataclass
+class I(_Container):
+    _tag = "i"
+
+
+@dataclass
+class Iframe(
+    _Container,
+    attr.Allow,
+    attr.Allowfullscreen,
+    attr.Browsingtopics,
+    attr.Credentialless,
+    attr.Csp,
+    attr.Height,
+    attr.Loading,
+    attr.Name,
+    attr.Referrerpolicy,
+    attr.Sandbox,
+    attr.Src,
+    attr.Srcdoc,
+    attr.Width,
+):
+    _tag = "iframe"
+
+
+@dataclass
+class Img(
+    _Container,
+    attr.Alt,
+    attr.Attributionsrc,
+    attr.Crossorigin,
+    attr.Decoding,
+    attr.Elementtiming,
+    attr.Fetchpriority,
+    attr.Height,
+    attr.Ismap,
+    attr.Loading,
+    attr.Referrerpolicy,
+    attr.Sizes,
+    attr.Src,
+    attr.Srcset,
+    attr.Width,
+    attr.Usemap,
+):
+    _tag = "img"
+
+
+@dataclass
+class Input(
+    _Tag,
+    attr.Accept,
+    attr.Alt,
+    attr.Autocomplete,
+    attr.Capture,
+    attr.Checked,
+    attr.Dirname,
+    attr.Disabled,
+    attr.Form,
+    attr.Formaction,
+    attr.Formenctype,
+    attr.Formmethod,
+    attr.Formnovalidate,
+    attr.Formtarget,
+    attr.Height,
+    attr.Incremental,
+    attr.List,
+    attr.Max,
+    attr.Maxlength,
+    attr.Min,
+    attr.Minlength,
+    attr.Multiple,
+    attr.Name,
+    attr.Orient,
+    attr.Pattern,
+    attr.Placeholder,
+    attr.Popovertarget,
+    attr.Popovertargetaction,
+    attr.Readonly,
+    attr.Results,
+    attr.Required,
+    attr.Size,
+    attr.Src,
+    attr.Step,
+    attr.Type,
+    attr.Value,
+    attr.Webkitdirectory,
+    attr.Width,
+):
+    _tag = "input"
+
+
+@dataclass
+class Ins(
+    _Container,
+    attr.Cite,
+    attr.Datetime,
+):
+    _tag = "ins"
+
+
+@dataclass
+class Kbd(_Container):
+    _tag = "kbd"
+
+
+@dataclass
+class Label(
+    _Container,
+    attr.For_attr,
+):
+    _tag = "label"
+
+
+@dataclass
+class Legend(_Container):
+    _tag = "legend"
+
+
+@dataclass
+class Li(
+    _Container,
+    attr.Value,
+):
+    _tag = "li"
+
+
+@dataclass
+class Link(
+    _Container,
+    attr.As_attr,
+    attr.Blocking,
+    attr.Crossorigin,
+    attr.Disabled,
+    attr.Fetchpriority,
+    attr.Href,
+    attr.Hreflang,
+    attr.Imagesizes,
+    attr.Imagesrcset,
+    attr.Integrity,
+    attr.Media,
+    attr.Referrerpolicy,
+    attr.Rel,
+    attr.Sizes,
+    attr.Type,
+):
+    _tag = "link"
+
+
+@dataclass
+class Main(_Container):
+    _tag = "main"
+
+
+@dataclass
+class Map(
+    _Container,
+    attr.Name,
+):
+    _tag = "map"
+
+
+@dataclass
+class Mark(_Container):
+    _tag = "mark"
+
+
+@dataclass
+class Menu(_Container):
+    _tag = "menu"
+
+
+@dataclass
+class Meta(
+    _Tag,
+    attr.Charset,
+    attr.Content,
+    attr.Http_equiv,
+    attr.Media,
+    attr.Name,
+):
+    _tag = "meta"
+
+
+@dataclass
+class Meter(
+    _Container,
+    attr.Value,
+    attr.Min,
+    attr.Max,
+    attr.Low,
+    attr.High,
+    attr.Optimum,
+    attr.Form,
+):
+    _tag = "meter"
+
+
+@dataclass
+class Nav(_Container):
+    _tag = "nav"
+
+
+@dataclass
+class Noscript(_Container):
+    _tag = "noscript"
+
+
+@dataclass
+class Object(
+    _Container,
+    attr.Data,
+    attr.Form,
+    attr.Height,
+    attr.Name,
+    attr.Type,
+    attr.Width,
+):
+    _tag = "object"
+
+
+@dataclass
+class Ol(
+    _Container,
+    attr.Reversed,
+    attr.Start,
+    attr.Type,
+):
+    _tag = "ol"
+
+
+@dataclass
+class Optgroup(
+    _Container,
+    attr.Disabled,
+    attr.Label,
+):
+    _tag = "optgroup"
+
+
+@dataclass
+class Option(
+    _Container,
+    attr.Disabled,
+    attr.Label,
+    attr.Selected,
+    attr.Value,
+):
+    _tag = "option"
+
+
+@dataclass
+class Output(
+    _Container,
+    attr.For_attr,
+    attr.Form,
+    attr.Name,
+):
+    _tag = "output"
+
+
+@dataclass
+class P(_Container):
+    _tag = "p"
+
+
+@dataclass
+class Picture(_Container):
+    _tag = "picture"
+
+
+@dataclass
+class Pre(_Container):
+    _tag = "pre"
+
+
+@dataclass
+class Progress(
+    _Container,
+    attr.Max,
+    attr.Value,
+):
+    _tag = "progress"
+
+
+@dataclass
+class Q(
+    _Container,
+    attr.Cite,
+):
+    _tag = "q"
+
+
+@dataclass
+class Rp(_Container):
+    _tag = "rp"
+
+
+@dataclass
+class Rt(_Container):
+    _tag = "rt"
+
+
+@dataclass
+class Ruby(_Container):
+    _tag = "ruby"
+
+
+@dataclass
+class S(_Container):
+    _tag = "s"
+
+
+@dataclass
+class Samp(_Container):
+    _tag = "samp"
+
+
+@dataclass
+class Script(
+    _Container,
+    attr.Async_attr,
+    attr.Attributionsrc,
+    attr.Blocking,
+    attr.Crossorigin,
+    attr.Defer,
+    attr.Fetchpriority,
+    attr.Integrity,
+    attr.Nomodule,
+    attr.Referrerpolicy,
+    attr.Src,
+    attr.Type,
+):
+    _tag = "script"
+
+
+@dataclass
+class Search(_Container):
+    _tag = "search"
+
+
+@dataclass
+class Section(_Container):
+    _tag = "section"
+
+
+@dataclass
+class Select(
+    _Container,
+    attr.Autocomplete,
+    attr.Disabled,
+    attr.Form,
+    attr.Multiple,
+    attr.Name,
+    attr.Required,
+    attr.Size,
+):
+    _tag = "select"
+
+
+@dataclass
+class Slot(
+    _Container,
+    attr.Name,
+):
+    _tag = "slot"
+
+
+@dataclass
+class Small(_Container):
+    _tag = "small"
+
+
+@dataclass
+class Source(
+    _Tag,
+    attr.Type,
+    attr.Src,
+    attr.Srcset,
+    attr.Sizes,
+    attr.Media,
+    attr.Height,
+    attr.Width,
+):
+    _tag = "source"
+
+
+@dataclass
+class Span(_Container):
+    _tag = "span"
+
+
+@dataclass
+class Strong(_Container):
+    _tag = "strong"
+
+
+@dataclass
+class Style(
+    _Container,
+    attr.Blocking,
+    attr.Media,
+):
+    _tag = "style"
+
+
+@dataclass
+class Sub(_Container):
+    _tag = "sub"
+
+
+@dataclass
+class Summary(_Container):
+    _tag = "summary"
+
+
+@dataclass
+class Sup(_Container):
+    _tag = "sup"
+
+
+@dataclass
+class Table(_Container):
+    _tag = "table"
+
+
+@dataclass
+class Tbody(_Container):
+    _tag = "tbody"
+
+
+@dataclass
+class Td(
+    _Container,
+    attr.Colspan,
+    attr.Headers,
+    attr.Rowspan,
+):
+    _tag = "td"
+
+
+@dataclass
+class Template(
+    _Container,
+    attr.Shadowrootclonable,
+    attr.Shadowrootdelegatesfocus,
+    attr.Shadowrootmode,
+    attr.Shadowrootserializable,
+):
+    _tag = "template"
+
+
+@dataclass
+class Textarea(
+    _Container,
+    attr.Autocomplete,
+    attr.Cols,
+    attr.Dirname,
+    attr.Disabled,
+    attr.Form,
+    attr.Maxlength,
+    attr.Minlength,
+    attr.Name,
+    attr.Placeholder,
+    attr.Readonly,
+    attr.Required,
+    attr.Rows,
+    attr.Wrap,
+):
+    _tag = "textarea"
+
+
+@dataclass
+class Tfoot(_Container):
+    _tag = "tfoot"
+
+
+@dataclass
+class Th(
+    _Container,
+    attr.Abbr,
+    attr.Colspan,
+    attr.Headers,
+    attr.Rowspan,
+    attr.Scope,
+):
+    _tag = "th"
+
+
+@dataclass
+class Thead(_Container):
+    _tag = "thead"
+
+
+@dataclass
+class Time(
+    _Container,
+    attr.Datetime,
+):
+    _tag = "time"
+
+
+@dataclass
+class Title(_Container):
+    _tag = "title"
+
+
+@dataclass
+class Tr(_Container):
+    _tag = "tr"
+
+
+@dataclass
+class Track(
+    _Tag,
+    attr.Default,
+    attr.Kind,
+    attr.Label,
+    attr.Src,
+    attr.Srclang,
+):
+    _tag = "track"
+
+
+@dataclass
+class U(_Container):
+    _tag = "u"
+
+
+@dataclass
+class Ul(_Container):
+    _tag = "ul"
+
+
+@dataclass
+class Var(_Container):
+    _tag = "var"
+
+
+@dataclass
+class Video(
+    _Container,
+    attr.Autoplay,
+    attr.Controls,
+    attr.Controlslist,
+    attr.Crossorigin,
+    attr.Disablepictureinpicture,
+    attr.Disableremoteplayback,
+    attr.Height,
+    attr.Loop,
+    attr.Muted,
+    attr.Playsinline,
+    attr.Poster,
+    attr.Preload,
+    attr.Src,
+    attr.Width,
+):
+    _tag = "video"
+
+
+@dataclass
+class Wbr(_Tag):
+    _tag = "wbr"
