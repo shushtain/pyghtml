@@ -1,5 +1,5 @@
 from dataclasses import dataclass, replace
-import html_attributes as attr
+from . import html_attributes as attr
 
 
 @dataclass
@@ -587,7 +587,7 @@ class Li(
 
 @dataclass
 class Link(
-    _Container,
+    _Tag,
     attr.As_attr,
     attr.Blocking,
     attr.Crossorigin,

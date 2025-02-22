@@ -289,7 +289,7 @@ class Content(_Enum):
     content: str = None
 
     def __str__(self) -> str:
-        return super().__str__("content", None)
+        return super().__str__("content", None, ",")
 
 
 @dataclass
@@ -674,6 +674,34 @@ class InnerHTML:
 
     def __str__(self, sep="") -> str:
         return sep.join(str(x) for x in self.innerHTML)
+
+    def __post_init__(self):
+        if not isinstance(self.innerHTML, list):
+            self.innerHTML = [self.innerHTML]
+
+    def __getitem__(self, index):
+        try:
+            return self.innerHTML[index]
+        except IndexError:
+            raise IndexError("Index out of range")
+        except TypeError:
+            raise TypeError("Index must be an integer or slice")
+
+    def __setitem__(self, index, value):
+        try:
+            self.innerHTML[index] = value
+        except IndexError:
+            raise IndexError("Index out of range")
+        except TypeError:
+            raise TypeError("Index must be an integer or slice")
+
+    def __delitem__(self, index):
+        try:
+            del self.innerHTML[index]
+        except IndexError:
+            raise IndexError("Index out of range")
+        except TypeError:
+            raise TypeError("Index must be an integer or slice")
 
 
 @dataclass
