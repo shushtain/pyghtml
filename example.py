@@ -7,7 +7,8 @@ import pyghtml as html
 # Could be a JSON file converted into a dict, etc.
 
 
-def fib_seq(array=[1, 1], steps=10):
+def fib_seq(array: list = [1, 1], steps: int = 10) -> list:
+    """Keep `array=[1, 1]`. Change `steps` at will"""
     if len(array) < steps:
         array.append(array[-2] + array[-1])
         fib_seq(array, steps)
@@ -23,13 +24,13 @@ blocks = fib_seq(steps=8)
 
 body = html.Body()
 body += html.H1() + "Fibonacci numbers"
-body += html.Div(class_attr="container horz")
+body += html.Div(class_="container horz")
 
 
 def pack(elem, array):
     if len(array) > 0:
-        elem[-1] += html.Div() + html.P(innerHTML=array[-1])
-        elem[-1] += html.Div(class_attr=("vert" if len(array) % 2 == 0 else "horz"))
+        elem[-1] += html.Div() + html.P(inner_html=array[-1])
+        elem[-1] += html.Div(class_=("vert" if len(array) % 2 == 0 else "horz"))
         pack(elem[-1], array[:-1])
     return elem
 
@@ -54,6 +55,3 @@ head = html.Head() + style
 
 page = html.Html(lang="en") + head + body
 print(str(html.Doctype()) + str(page))
-
-
-# If you see the point in using the library, please report bugs to me :)

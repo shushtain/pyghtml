@@ -1,3 +1,5 @@
+"""HTML tags as classes"""
+
 from dataclasses import dataclass, replace
 from . import html_attributes as attr
 
@@ -6,24 +8,24 @@ from . import html_attributes as attr
 class _Tag(
     attr.Accesskey,
     attr.Anchor,
-    attr.Aria_attrs,
+    attr.AriaAttrs,
     attr.Autocapitalize,
     attr.Autocorrect,
     attr.Autofocus,
-    attr.Class_attr,
+    attr.Class,
     attr.Contenteditable,
-    attr.Custom_attrs,
-    attr.Data_attrs,
+    attr.CustomAttrs,
+    attr.DataAttrs,
     attr.Dir,
     attr.Draggable,
     attr.Enterkeyhint,
-    attr.Event_attrs,
+    attr.EventAttrs,
     attr.Exportparts,
     attr.Hidden,
     attr.Id,
     attr.Inert,
     attr.Inputmode,
-    attr.Is_attr,
+    attr.Is,
     attr.Itemid,
     attr.Itemprop,
     attr.Itemref,
@@ -43,11 +45,11 @@ class _Tag(
     attr.Virtualkeyboardpolicy,
     attr.Writingsuggestions,
 ):
-    """The highest-level parent class of all other elements that stores global attributes. Returns tag None. Don't use in production."""
+    """The highest-level parent class of all other elements that stores global attributes. Returns tag `<None />`. Don't use in production"""
 
     _tag = None
 
-    def __str__(self):
+    def __str__(self, *args, **kwargs) -> str:
 
         tag = str(self.__class__._tag)
 
@@ -64,10 +66,13 @@ class _Tag(
 
 
 @dataclass
-class _Container(_Tag, attr.InnerHTML):
-    """The parent class of all container elements. Returns tag None. Don't use in production."""
+class _Container(
+    _Tag,
+    attr.InnerHTML,
+):
+    """The parent class of all container elements that stores global attributes and an `inner_html` placeholder. Returns tag `<None></None>`. Don't use in production"""
 
-    def __str__(self):
+    def __str__(self) -> str:
 
         tag = str(self.__class__._tag)
 
@@ -77,7 +82,7 @@ class _Container(_Tag, attr.InnerHTML):
 
         for cls in self.__class__.mro():
             for key, value in self.__dict__.items():
-                if key == "innerHTML":
+                if key == "inner_html":
                     continue
                 if key in cls.__dict__:
                     temp = f"{str(cls(value))}"
@@ -87,19 +92,38 @@ class _Container(_Tag, attr.InnerHTML):
         return f"<{tag}{attrs}>{inner_html}</{tag}>"
 
     def __add__(self, other):
-        temp = self.innerHTML[:]
+        temp = self.inner_html[:]
         temp.append(other)
-        return replace(self, innerHTML=temp)
+        return replace(self, inner_html=temp)
 
     def __iadd__(self, other):
-        self.innerHTML.append(other)
+        self.inner_html.append(other)
         return self
 
 
 @dataclass
 class Doctype:
-    def __str__(self):
-        return f"<!DOCTYPE html>"
+    def __str__(self) -> str:
+        return "<!DOCTYPE html>"
+
+
+@dataclass
+class CommentHTML(attr.InnerHTML):
+
+    def __str__(self, *args, **kwargs) -> str:
+
+        inner_html = attr.InnerHTML.__str__(self)
+
+        return f"<!-- {inner_html} -->"
+
+    def __add__(self, other):
+        temp = self.inner_html[:]
+        temp.append(other)
+        return replace(self, inner_html=temp)
+
+    def __iadd__(self, other):
+        self.inner_html.append(other)
+        return self
 
 
 @dataclass
@@ -119,8 +143,8 @@ class A(
 
 
 @dataclass
-class Attr(_Container):
-    _tag = "attr"
+class Abbr(_Container):
+    _tag = "abbr"
 
 
 @dataclass
@@ -258,7 +282,10 @@ class Code(_Container):
 
 
 @dataclass
-class Col(_Tag, attr.Span):
+class Col(
+    _Tag,
+    attr.Span,
+):
     _tag = "col"
 
 
@@ -388,7 +415,7 @@ class Footer(_Container):
 @dataclass
 class Form(
     _Container,
-    attr.Accept_charset,
+    attr.AcceptCharset,
     attr.Autocomplete,
     attr.Name,
     attr.Rel,
@@ -468,7 +495,6 @@ class I(_Container):
 class Iframe(
     _Container,
     attr.Allow,
-    attr.Allowfullscreen,
     attr.Browsingtopics,
     attr.Credentialless,
     attr.Csp,
@@ -486,7 +512,7 @@ class Iframe(
 
 @dataclass
 class Img(
-    _Container,
+    _Tag,
     attr.Alt,
     attr.Attributionsrc,
     attr.Crossorigin,
@@ -567,7 +593,7 @@ class Kbd(_Container):
 @dataclass
 class Label(
     _Container,
-    attr.For_attr,
+    attr.For,
 ):
     _tag = "label"
 
@@ -588,7 +614,7 @@ class Li(
 @dataclass
 class Link(
     _Tag,
-    attr.As_attr,
+    attr.As,
     attr.Blocking,
     attr.Crossorigin,
     attr.Disabled,
@@ -635,7 +661,7 @@ class Meta(
     _Tag,
     attr.Charset,
     attr.Content,
-    attr.Http_equiv,
+    attr.HttpEquiv,
     attr.Media,
     attr.Name,
 ):
@@ -712,7 +738,7 @@ class Option(
 @dataclass
 class Output(
     _Container,
-    attr.For_attr,
+    attr.For,
     attr.Form,
     attr.Name,
 ):
@@ -722,6 +748,15 @@ class Output(
 @dataclass
 class P(_Container):
     _tag = "p"
+
+
+@dataclass
+class Param(
+    _Tag,
+    attr.Name,
+    attr.Value,
+):
+    _tag = "param"
 
 
 @dataclass
@@ -779,7 +814,7 @@ class Samp(_Container):
 @dataclass
 class Script(
     _Container,
-    attr.Async_attr,
+    attr.Async,
     attr.Attributionsrc,
     attr.Blocking,
     attr.Crossorigin,
