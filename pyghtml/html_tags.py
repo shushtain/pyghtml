@@ -103,12 +103,15 @@ class _Container(
 
 @dataclass
 class Doctype:
+    """Defines the document type, `<!DOCTYPE html>` (HTML5)"""
+
     def __str__(self) -> str:
         return "<!DOCTYPE html>"
 
 
 @dataclass
 class CommentHTML(attr.InnerHTML):
+    """Defines an HTML comment, `<!-- -->`"""
 
     def __str__(self, *args, **kwargs) -> str:
 
@@ -139,16 +142,22 @@ class A(
     attr.Target,
     attr.Type,
 ):
+    """Defines a hyperlink"""
+
     _tag = "a"
 
 
 @dataclass
 class Abbr(_Container):
+    """Defines an abbreviation or an acronym"""
+
     _tag = "abbr"
 
 
 @dataclass
 class Address(_Container):
+    """Defines contact information for the author/owner of a document"""
+
     _tag = "address"
 
 
@@ -165,16 +174,22 @@ class Area(
     attr.Shape,
     attr.Target,
 ):
+    """Defines an area inside an image map"""
+
     _tag = "area"
 
 
 @dataclass
 class Article(_Container):
+    """Defines an article"""
+
     _tag = "article"
 
 
 @dataclass
 class Aside(_Container):
+    """Defines content aside from the page content"""
+
     _tag = "aside"
 
 
@@ -191,11 +206,15 @@ class Audio(
     attr.Preload,
     attr.Src,
 ):
+    """Defines embedded sound content"""
+
     _tag = "audio"
 
 
 @dataclass
 class B(_Container):
+    """Defines bold text"""
+
     _tag = "b"
 
 
@@ -205,16 +224,22 @@ class Base(
     attr.Href,
     attr.Target,
 ):
+    """Specifies the base URL/target for all relative URLs in a document"""
+
     _tag = "base"
 
 
 @dataclass
 class Bdi(_Container):
+    """Isolates a part of text that might be formatted in a different direction"""
+
     _tag = "bdi"
 
 
 @dataclass
 class Bdo(_Container):
+    """Overrides the current text direction"""
+
     _tag = "bdo"
 
 
@@ -223,16 +248,22 @@ class Blockquote(
     _Container,
     attr.Cite,
 ):
+    """Defines a section that is quoted from another source"""
+
     _tag = "blockquote"
 
 
 @dataclass
 class Body(_Container):
+    """Defines the document's body"""
+
     _tag = "body"
 
 
 @dataclass
 class Br(_Tag):
+    """Defines a line break"""
+
     _tag = "br"
 
 
@@ -254,6 +285,8 @@ class Button(
     attr.Type,
     attr.Value,
 ):
+    """Defines a clickable button"""
+
     _tag = "button"
 
 
@@ -263,21 +296,29 @@ class Canvas(
     attr.Height,
     attr.Width,
 ):
+    """Used to draw graphics, on the fly, via scripting (usually JavaScript)"""
+
     _tag = "canvas"
 
 
 @dataclass
 class Caption(_Container):
+    """Defines a table caption"""
+
     _tag = "caption"
 
 
 @dataclass
 class Cite(_Container):
+    """Defines the title of a work"""
+
     _tag = "cite"
 
 
 @dataclass
 class Code(_Container):
+    """Defines a piece of computer code"""
+
     _tag = "code"
 
 
@@ -286,6 +327,8 @@ class Col(
     _Tag,
     attr.Span,
 ):
+    """Specifies column properties for each column within a <colgroup> element"""
+
     _tag = "col"
 
 
@@ -294,6 +337,8 @@ class Colgroup(
     _Container,
     attr.Span,
 ):
+    """Specifies a group of one or more columns in a table for formatting"""
+
     _tag = "colgroup"
 
 
@@ -302,16 +347,22 @@ class Data(
     _Container,
     attr.Value,
 ):
+    """Adds a machine-readable translation of a given content"""
+
     _tag = "data"
 
 
 @dataclass
 class Datalist(_Container):
+    """Specifies a list of pre-defined options for input controls"""
+
     _tag = "datalist"
 
 
 @dataclass
 class Dd(_Container):
+    """Defines a description/value of a term in a description list"""
+
     _tag = "dd"
 
 
@@ -321,6 +372,8 @@ class Del(
     attr.Cite,
     attr.Datetime,
 ):
+    """Defines text that has been deleted from a document"""
+
     _tag = "del"
 
 
@@ -330,11 +383,15 @@ class Details(
     attr.Open,
     attr.Name,
 ):
+    """Defines additional details that the user can view or hide"""
+
     _tag = "details"
 
 
 @dataclass
 class Dfn(_Container):
+    """Specifies a term that is going to be defined within the content"""
+
     _tag = "dfn"
 
 
@@ -343,26 +400,36 @@ class Dialog(
     _Container,
     attr.Open,
 ):
+    """Defines a dialog box or window"""
+
     _tag = "dialog"
 
 
 @dataclass
 class Div(_Container):
+    """Defines a section in a document"""
+
     _tag = "div"
 
 
 @dataclass
 class Dl(_Container):
+    """Defines a description list"""
+
     _tag = "dl"
 
 
 @dataclass
 class Dt(_Container):
+    """Defines a term/name in a description list"""
+
     _tag = "dt"
 
 
 @dataclass
 class Em(_Container):
+    """Defines emphasized text"""
+
     _tag = "em"
 
 
@@ -374,6 +441,8 @@ class Embed(
     attr.Type,
     attr.Width,
 ):
+    """Defines a container for an external application"""
+
     _tag = "embed"
 
 
@@ -384,6 +453,8 @@ class Fencedframe(
     attr.Height,
     attr.Width,
 ):
+    """Represents a nested browsing context, embedding another HTML page into the current one"""
+
     _tag = "fencedframe"
 
 
@@ -394,21 +465,29 @@ class Fieldset(
     attr.Form,
     attr.Name,
 ):
+    """Groups related elements in a form"""
+
     _tag = "fieldset"
 
 
 @dataclass
 class Figcaption(_Container):
+    """Defines a caption for a `<figure>` element"""
+
     _tag = "figcaption"
 
 
 @dataclass
 class Figure(_Container):
+    """Specifies self-contained content"""
+
     _tag = "figure"
 
 
 @dataclass
 class Footer(_Container):
+    """Defines a footer for a document or section"""
+
     _tag = "footer"
 
 
@@ -425,56 +504,78 @@ class Form(
     attr.Novalidate,
     attr.Target,
 ):
+    """Defines an HTML form for user input"""
+
     _tag = "form"
 
 
 @dataclass
 class H1(_Container):
+    """Defines the highest-level HTML heading"""
+
     _tag = "h1"
 
 
 @dataclass
 class H2(_Container):
+    """Defines an HTML heading"""
+
     _tag = "h2"
 
 
 @dataclass
 class H3(_Container):
+    """Defines an HTML heading"""
+
     _tag = "h3"
 
 
 @dataclass
 class H4(_Container):
+    """Defines an HTML heading"""
+
     _tag = "h4"
 
 
 @dataclass
 class H5(_Container):
+    """Defines an HTML heading"""
+
     _tag = "h5"
 
 
 @dataclass
 class H6(_Container):
+    """Defines the lowest-level HTML heading"""
+
     _tag = "h6"
 
 
 @dataclass
 class Head(_Container):
+    """Contains metadata/information for the document"""
+
     _tag = "head"
 
 
 @dataclass
 class Header(_Container):
+    """Defines a header for a document or section"""
+
     _tag = "header"
 
 
 @dataclass
 class Hgroup(_Container):
+    """Defines a header and related content"""
+
     _tag = "hgroup"
 
 
 @dataclass
 class Hr(_Tag):
+    """Defines a thematic change in the content"""
+
     _tag = "hr"
 
 
@@ -483,11 +584,15 @@ class Html(
     _Container,
     attr.Xmlns,
 ):
+    """Defines the root of an HTML document"""
+
     _tag = "html"
 
 
 @dataclass
 class I(_Container):
+    """Defines a part of text in an alternate voice or mood"""
+
     _tag = "i"
 
 
@@ -507,6 +612,8 @@ class Iframe(
     attr.Srcdoc,
     attr.Width,
 ):
+    """Defines an inline frame"""
+
     _tag = "iframe"
 
 
@@ -529,6 +636,8 @@ class Img(
     attr.Width,
     attr.Usemap,
 ):
+    """Defines an image"""
+
     _tag = "img"
 
 
@@ -573,6 +682,8 @@ class Input(
     attr.Webkitdirectory,
     attr.Width,
 ):
+    """Defines an input control"""
+
     _tag = "input"
 
 
@@ -582,11 +693,15 @@ class Ins(
     attr.Cite,
     attr.Datetime,
 ):
+    """Defines a text that has been inserted into a document"""
+
     _tag = "ins"
 
 
 @dataclass
 class Kbd(_Container):
+    """Defines keyboard input"""
+
     _tag = "kbd"
 
 
@@ -595,11 +710,15 @@ class Label(
     _Container,
     attr.For,
 ):
+    """Defines a label for an `<input>` element"""
+
     _tag = "label"
 
 
 @dataclass
 class Legend(_Container):
+    """Defines a caption for a `<fieldset>` element"""
+
     _tag = "legend"
 
 
@@ -608,6 +727,8 @@ class Li(
     _Container,
     attr.Value,
 ):
+    """Defines a list item"""
+
     _tag = "li"
 
 
@@ -630,11 +751,15 @@ class Link(
     attr.Sizes,
     attr.Type,
 ):
+    """Defines the relationship between a document and an external resource"""
+
     _tag = "link"
 
 
 @dataclass
 class Main(_Container):
+    """Specifies the main content of a document"""
+
     _tag = "main"
 
 
@@ -643,16 +768,22 @@ class Map(
     _Container,
     attr.Name,
 ):
+    """Defines an image map"""
+
     _tag = "map"
 
 
 @dataclass
 class Mark(_Container):
+    """Defines marked/highlighted text"""
+
     _tag = "mark"
 
 
 @dataclass
 class Menu(_Container):
+    """Defines an unordered list"""
+
     _tag = "menu"
 
 
@@ -665,6 +796,8 @@ class Meta(
     attr.Media,
     attr.Name,
 ):
+    """Defines metadata about an HTML document"""
+
     _tag = "meta"
 
 
@@ -679,16 +812,22 @@ class Meter(
     attr.Optimum,
     attr.Form,
 ):
+    """Defines a scalar measurement within a known range (a gauge)"""
+
     _tag = "meter"
 
 
 @dataclass
 class Nav(_Container):
+    """Defines navigation links"""
+
     _tag = "nav"
 
 
 @dataclass
 class Noscript(_Container):
+    """Defines an alternate content for users that do not support client-side scripts"""
+
     _tag = "noscript"
 
 
@@ -702,6 +841,8 @@ class Object(
     attr.Type,
     attr.Width,
 ):
+    """Defines a container for an external application"""
+
     _tag = "object"
 
 
@@ -712,6 +853,8 @@ class Ol(
     attr.Start,
     attr.Type,
 ):
+    """Defines an ordered list"""
+
     _tag = "ol"
 
 
@@ -721,6 +864,8 @@ class Optgroup(
     attr.Disabled,
     attr.Label,
 ):
+    """Defines a group of related options in a dropdown"""
+
     _tag = "optgroup"
 
 
@@ -732,6 +877,8 @@ class Option(
     attr.Selected,
     attr.Value,
 ):
+    """Defines an option in a dropdown"""
+
     _tag = "option"
 
 
@@ -742,11 +889,15 @@ class Output(
     attr.Form,
     attr.Name,
 ):
+    """Defines the result of a calculation"""
+
     _tag = "output"
 
 
 @dataclass
 class P(_Container):
+    """Defines a paragraph"""
+
     _tag = "p"
 
 
@@ -756,16 +907,22 @@ class Param(
     attr.Name,
     attr.Value,
 ):
+    """Defines a parameter for an object"""
+
     _tag = "param"
 
 
 @dataclass
 class Picture(_Container):
+    """Defines a container for multiple image resources"""
+
     _tag = "picture"
 
 
 @dataclass
 class Pre(_Container):
+    """Defines pre-formatted text"""
+
     _tag = "pre"
 
 
@@ -775,6 +932,8 @@ class Progress(
     attr.Max,
     attr.Value,
 ):
+    """Represents the progress of a task"""
+
     _tag = "progress"
 
 
@@ -783,31 +942,43 @@ class Q(
     _Container,
     attr.Cite,
 ):
+    """Defines a short quotation"""
+
     _tag = "q"
 
 
 @dataclass
 class Rp(_Container):
+    """Defines what to show in browsers that do not support ruby annotations"""
+
     _tag = "rp"
 
 
 @dataclass
 class Rt(_Container):
+    """Defines an explanation/pronunciation of characters"""
+
     _tag = "rt"
 
 
 @dataclass
 class Ruby(_Container):
+    """Defines a ruby annotation"""
+
     _tag = "ruby"
 
 
 @dataclass
 class S(_Container):
+    """Defines text that is no longer correct"""
+
     _tag = "s"
 
 
 @dataclass
 class Samp(_Container):
+    """Defines sample output from a computer program"""
+
     _tag = "samp"
 
 
@@ -826,16 +997,22 @@ class Script(
     attr.Src,
     attr.Type,
 ):
+    """Defines a client-side script"""
+
     _tag = "script"
 
 
 @dataclass
 class Search(_Container):
+    """Defines a search section"""
+
     _tag = "search"
 
 
 @dataclass
 class Section(_Container):
+    """Defines a section in a document"""
+
     _tag = "section"
 
 
@@ -850,6 +1027,8 @@ class Select(
     attr.Required,
     attr.Size,
 ):
+    """Defines a dropdown"""
+
     _tag = "select"
 
 
@@ -858,11 +1037,15 @@ class Slot(
     _Container,
     attr.Name,
 ):
+    """Defines a placeholder inside a web component with a separate markup"""
+
     _tag = "slot"
 
 
 @dataclass
 class Small(_Container):
+    """Defines smaller text"""
+
     _tag = "small"
 
 
@@ -877,16 +1060,22 @@ class Source(
     attr.Height,
     attr.Width,
 ):
+    """Defines multiple resources for media elements"""
+
     _tag = "source"
 
 
 @dataclass
 class Span(_Container):
+    """Defines an inline section"""
+
     _tag = "span"
 
 
 @dataclass
 class Strong(_Container):
+    """Defines important text"""
+
     _tag = "strong"
 
 
@@ -896,31 +1085,43 @@ class Style(
     attr.Blocking,
     attr.Media,
 ):
+    """Defines style information for a document"""
+
     _tag = "style"
 
 
 @dataclass
 class Sub(_Container):
+    """Defines subscripted text"""
+
     _tag = "sub"
 
 
 @dataclass
 class Summary(_Container):
+    """Defines a visible heading for a `<details>` element"""
+
     _tag = "summary"
 
 
 @dataclass
 class Sup(_Container):
+    """Defines superscripted text"""
+
     _tag = "sup"
 
 
 @dataclass
 class Table(_Container):
+    """Defines a table"""
+
     _tag = "table"
 
 
 @dataclass
 class Tbody(_Container):
+    """Groups the body content in a table"""
+
     _tag = "tbody"
 
 
@@ -931,6 +1132,8 @@ class Td(
     attr.Headers,
     attr.Rowspan,
 ):
+    """Defines a cell in a table"""
+
     _tag = "td"
 
 
@@ -942,6 +1145,8 @@ class Template(
     attr.Shadowrootmode,
     attr.Shadowrootserializable,
 ):
+    """Defines a container for content that should be hidden when the page loads"""
+
     _tag = "template"
 
 
@@ -962,11 +1167,15 @@ class Textarea(
     attr.Rows,
     attr.Wrap,
 ):
+    """Defines a multiline text input area"""
+
     _tag = "textarea"
 
 
 @dataclass
 class Tfoot(_Container):
+    """Groups the footer content in a table"""
+
     _tag = "tfoot"
 
 
@@ -979,11 +1188,15 @@ class Th(
     attr.Rowspan,
     attr.Scope,
 ):
+    """Defines a header cell in a table"""
+
     _tag = "th"
 
 
 @dataclass
 class Thead(_Container):
+    """Groups the header content in a table"""
+
     _tag = "thead"
 
 
@@ -992,16 +1205,22 @@ class Time(
     _Container,
     attr.Datetime,
 ):
+    """Defines a specific time (or datetime)"""
+
     _tag = "time"
 
 
 @dataclass
 class Title(_Container):
+    """Defines a title for the document"""
+
     _tag = "title"
 
 
 @dataclass
 class Tr(_Container):
+    """Defines a row in a table"""
+
     _tag = "tr"
 
 
@@ -1014,21 +1233,29 @@ class Track(
     attr.Src,
     attr.Srclang,
 ):
+    """Defines text tracks for media elements"""
+
     _tag = "track"
 
 
 @dataclass
 class U(_Container):
+    """Defines some text that is unarticulated and styled differently from normal text"""
+
     _tag = "u"
 
 
 @dataclass
 class Ul(_Container):
+    """Defines an unordered list"""
+
     _tag = "ul"
 
 
 @dataclass
 class Var(_Container):
+    """Defines a variable"""
+
     _tag = "var"
 
 
@@ -1050,9 +1277,13 @@ class Video(
     attr.Src,
     attr.Width,
 ):
+    """Defines embedded video content"""
+
     _tag = "video"
 
 
 @dataclass
 class Wbr(_Tag):
+    """Defines a possible line-break"""
+
     _tag = "wbr"
