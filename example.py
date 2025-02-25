@@ -7,15 +7,20 @@ import pyghtml as html
 # Could be a JSON file converted into a dict, etc.
 
 
-def fib_seq(array: list = [1, 1], steps: int = 10) -> list:
-    """Keep `array=[1, 1]`. Change `steps` at will"""
-    if len(array) < steps:
-        array.append(array[-2] + array[-1])
-        fib_seq(array, steps)
+def fib_seq(length: int = 10) -> list:
+    """Generates a Fibonacci sequence of `length`"""
+    array: list = [1, 1]
+
+    def fib(array, length):
+        if len(array) < length:
+            array.append(array[-2] + array[-1])
+            fib(array, length)
+
+    fib(array, length)
     return array
 
 
-blocks = fib_seq(steps=8)
+blocks = fib_seq(10)
 
 
 # *** Bulding parts of the page
@@ -28,6 +33,7 @@ body += html.Div(class_="container horz")
 
 
 def pack(elem, array):
+    """Turns data blocks into HTML elements"""
     if len(array) > 0:
         elem[-1] += html.Div() + html.P(inner_html=array[-1])
         elem[-1] += html.Div(class_=("vert" if len(array) % 2 == 0 else "horz"))
@@ -36,7 +42,6 @@ def pack(elem, array):
 
 
 pack(body, blocks)
-
 
 # *-- head
 # Inline css is good for providing a single-file example.

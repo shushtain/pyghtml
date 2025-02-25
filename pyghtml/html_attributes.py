@@ -7,137 +7,125 @@ from dataclasses import dataclass, field
 class _Attr:
     """The parent class of all attributes. Don't use in production"""
 
-    def __str__(self, html_name=None, default_value=None, sep=" ") -> str:
-        str_out = ""
-        for attr_value in self.__dict__.values():
+    def __str__(self) -> str:
+        attrs = self.__dict__
+        attrs_str = ""
+        for key, value in attrs.items():
 
-            if attr_value == default_value:
+            key_pure = key[:-1] if key[-1] == "_" else key
+
+            # skip "service" arguments
+            if key[0] == "_":
                 continue
 
-            if isinstance(attr_value, bool):
-                if attr_value:
-                    str_out += f" {html_name}"
+            # skip inner_html as a quasi-attribute
+            if key == "inner_html":
                 continue
 
-            if isinstance(attr_value, (str, int, float)):
-                str_out += f' {html_name}="{str(attr_value)}"'
+            # skip default values
+            default_value = self.__dataclass_fields__[key].default
+            if value == default_value:
                 continue
 
-            if isinstance(attr_value, dict):
-                for k, v in attr_value.items():
+            html_name = key_pure.replace("_", "-")
+
+            if isinstance(value, bool):
+                attrs_str += f" {html_name}" if value else ""
+                continue
+
+            if isinstance(value, (str, int, float)):
+                attrs_str += f' {html_name}="{str(value)}"'
+                continue
+
+            if isinstance(value, dict):
+                for k, v in value.items():
                     if isinstance(v, bool):
-                        if v:
-                            str_out += f" {k}"
+                        attrs_str += f" {k}" if v else ""
                     elif isinstance(v, (str, int, float)):
-                        str_out += f' {k}="{str(v)}"'
+                        attrs_str += f' {k}="{str(v)}"'
                 continue
 
-            if isinstance(attr_value, list):
-                temp = sep.join(str(x) for x in attr_value)
-                str_out += f' {html_name}="{temp}"'
+            if f"_{key_pure}_sep" in attrs:
+                sep = attrs[f"_{key_pure}_sep"]
+            else:
+                sep = " "
+
+            if isinstance(value, list):
+                temp = sep.join(str(x) for x in value)
+                attrs_str += f' {html_name}="{temp}"'
                 continue
 
-        return str_out.strip()
+        return attrs_str
 
 
 @dataclass
 class Abbr(_Attr):
     """Specifies an abbreviated version of the content in `<th>`"""
 
-    abbr: str = None
-
-    def __str__(self, html_name="abbr", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    abbr: str | None = None
 
 
 @dataclass
 class Accept(_Attr):
     """Specifies the types of files that the server accepts (only for `type="file"`)"""
 
-    accept: str = None
-
-    def __str__(self, html_name="accept", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    accept: str | None = None
 
 
 @dataclass
 class AcceptCharset(_Attr):
     """Specifies the character encodings that are to be used for the form submission"""
 
-    accept_charset: str = None
-
-    def __str__(self, html_name="accept-charset", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    accept_charset: str | None = None
 
 
 @dataclass
 class Accesskey(_Attr):
     """Specifies a shortcut key to activate/focus an element"""
 
-    accesskey: str = None
-
-    def __str__(self, html_name="accesskey", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    accesskey: str | None = None
 
 
 @dataclass
 class Action(_Attr):
     """Specifies where to send the form-data when a form is submitted"""
 
-    action: str = None
-
-    def __str__(self, html_name="action", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    action: str | None = None
 
 
 @dataclass
 class Allow(_Attr):
     """Specifies a feature-policy for the `<iframe>`"""
 
-    allow: str = None
-
-    def __str__(self, html_name="allow", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    allow: str | None = None
 
 
 @dataclass
 class Alt(_Attr):
     """Specifies an alternate text when the original element fails to display"""
 
-    alt: str = None
-
-    def __str__(self, html_name="alt", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    alt: str | None = None
 
 
 @dataclass
 class Anchor(_Attr):
     """Associates a positioned element with an anchor element"""
 
-    anchor: str = None
-
-    def __str__(self, html_name="anchor", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    anchor: str | None = None
 
 
 @dataclass
 class AriaAttrs(_Attr):
     """A dictionary of ARIA attributes (for accessibility)"""
 
-    aria_attrs: dict = None
-
-    def __str__(self, html_name="aria-", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    aria_attrs: dict | None = None
 
 
 @dataclass
 class As(_Attr):
     """Specifies the type of content being loaded by the link"""
 
-    as_: str = None
-
-    def __str__(self, html_name="as", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    as_: str | None = None
 
 
 @dataclass
@@ -146,18 +134,12 @@ class Async(_Attr):
 
     async_: bool = False
 
-    def __str__(self, html_name="async", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Attributionsrc(_Attr):
     """Specifies that the Attribution-Reporting-Eligible header should be sent along with the image request"""
 
-    attributionsrc: str = None
-
-    def __str__(self, html_name="attributionsrc", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    attributionsrc: str | None = None
 
 
 @dataclass
@@ -166,18 +148,12 @@ class Autocapitalize(_Attr):
 
     autocapitalize: str = "none"
 
-    def __str__(self, html_name="autocapitalize", default_value="none", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Autocomplete(_Attr):
     """Specifies whether the `<form>` or the `<input>` element should have autocomplete enabled"""
 
-    autocomplete: str = None
-
-    def __str__(self, html_name="autocomplete", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    autocomplete: str | None = None
 
 
 @dataclass
@@ -186,18 +162,12 @@ class Autocorrect(_Attr):
 
     autocorrect: str = "on"
 
-    def __str__(self, html_name="autocorrect", default_value="on", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Autofocus(_Attr):
     """Specifies that the element should automatically get focus when the page loads"""
 
     autofocus: bool = False
-
-    def __str__(self, html_name="autofocus", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
 
 
 @dataclass
@@ -206,18 +176,12 @@ class Autoplay(_Attr):
 
     autoplay: bool = False
 
-    def __str__(self, html_name="autoplay", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Blocking(_Attr):
     """Indicates that certain operations should be blocked on the fetching of the script"""
 
-    blocking: str = None
-
-    def __str__(self, html_name="blocking", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    blocking: str | None = None
 
 
 @dataclass
@@ -226,28 +190,19 @@ class Browsingtopics(_Attr):
 
     browsingtopics: bool = False
 
-    def __str__(self, html_name="browsingtopics", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Capture(_Attr):
     """Specifies that a new file should be captured, and which device should be used to capture that new media of a type defined by the `accept` attribute"""
 
-    capture: str = None
-
-    def __str__(self, html_name="capture", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    capture: str | None = None
 
 
 @dataclass
 class Charset(_Attr):
     """Specifies the character encoding"""
 
-    charset: str = None
-
-    def __str__(self, html_name="charset", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    charset: str | None = None
 
 
 @dataclass
@@ -256,28 +211,19 @@ class Checked(_Attr):
 
     checked: bool = False
 
-    def __str__(self, html_name="checked", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Cite(_Attr):
     """Specifies a URL which explains the quote/deleted/inserted text"""
 
-    cite: str = None
-
-    def __str__(self, html_name="cite", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    cite: str | None = None
 
 
 @dataclass
 class Class(_Attr):
     """Specifies one or more class names for an element (refers to a class in a style sheet)"""
 
-    class_: str = None
-
-    def __str__(self, html_name="class", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    class_: str | None = None
 
 
 @dataclass
@@ -286,9 +232,6 @@ class Cols(_Attr):
 
     cols: str = "20"
 
-    def __str__(self, html_name="cols", default_value="20", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Colspan(_Attr):
@@ -296,48 +239,34 @@ class Colspan(_Attr):
 
     colspan: str = "1"
 
-    def __str__(self, html_name="colspan", default_value="1", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Command(_Attr):
     """Specifies the action to be performed on an element being controlled by a control `<button>`"""
 
-    command: str = None
-
-    def __str__(self, html_name="command", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    command: str | None = None
 
 
 @dataclass
 class Commandfor(_Attr):
     """Makes the `<button>` control the given interactive element"""
 
-    commandfor: str = None
-
-    def __str__(self, html_name="commandfor", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    commandfor: str | None = None
 
 
 @dataclass
 class Content(_Attr):
     """Gives the value associated with the `http-equiv` or `name` attribute"""
 
-    content: str = None
-
-    def __str__(self, html_name="content", default_value=None, sep=",") -> str:
-        return super().__str__(html_name, default_value, sep)
+    content: str | None = None
+    _content_sep: str = ","
 
 
 @dataclass
 class Contenteditable(_Attr):
     """Specifies whether the content of an element is editable or not"""
 
-    contenteditable: str = None
-
-    def __str__(self, html_name="contenteditable", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    contenteditable: str | None = None
 
 
 @dataclass
@@ -346,28 +275,19 @@ class Controls(_Attr):
 
     controls: bool = False
 
-    def __str__(self, html_name="controls", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Controlslist(_Attr):
     """Specifies which browser-native video controls to hide"""
 
-    controlslist: str = None
-
-    def __str__(self, html_name="controlslist", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    controlslist: str | None = None
 
 
 @dataclass
 class Coords(_Attr):
     """Specifies the coordinates of the area"""
 
-    coords: str = None
-
-    def __str__(self, html_name="coords", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    coords: str | None = None
 
 
 @dataclass
@@ -376,78 +296,54 @@ class Credentialless(_Attr):
 
     credentialless: bool = False
 
-    def __str__(self, html_name="credentialless", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Crossorigin(_Attr):
     """Specifies how the element handles cross-origin requests"""
 
-    crossorigin: str = None
-
-    def __str__(self, html_name="crossorigin", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    crossorigin: bool | str = False
 
 
 @dataclass
 class Csp(_Attr):
     """Specifies the Content Security Policy that an embedded document must agree to enforce upon itself"""
 
-    csp: str = None
-
-    def __str__(self, html_name="csp", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    csp: str | None = None
 
 
 @dataclass
 class CustomAttrs(_Attr):
     """A dictionary of custom attributes"""
 
-    custom_attrs: dict = None
-
-    def __str__(self, html_name="", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    custom_attrs: dict | None = None
 
 
 @dataclass
 class Data(_Attr):
     """Specifies the URL of the resource to be used by the object"""
 
-    data: str = None
-
-    def __str__(self, html_name="data", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    data: str | None = None
 
 
 @dataclass
 class DataAttrs(_Attr):
     """Used to store custom data private to the page or application"""
 
-    data_attrs: dict = None
-
-    def __str__(self, html_name="data-", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    data_attrs: dict | None = None
 
 
 @dataclass
 class Datetime(_Attr):
     """Specifies the date and time"""
 
-    datetime: str = None
-
-    def __str__(self, html_name="datetime", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    datetime: str | None = None
 
 
 @dataclass
 class Decoding(_Attr):
     """Indicates the preferred method to decode the image"""
 
-    decoding: str = None
-
-    def __str__(self, html_name="decoding", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    decoding: str | None = None
 
 
 @dataclass
@@ -456,9 +352,6 @@ class Default(_Attr):
 
     default: bool = False
 
-    def __str__(self, html_name="default", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Defer(_Attr):
@@ -466,28 +359,19 @@ class Defer(_Attr):
 
     defer: bool = False
 
-    def __str__(self, html_name="defer", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Dir(_Attr):
     """Specifies the text direction for the content in an element"""
 
-    dir: str = None
-
-    def __str__(self, html_name="dir", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    dir: str | None = None
 
 
 @dataclass
 class Dirname(_Attr):
     """Specifies that the text direction will be submitted"""
 
-    dirname: str = None
-
-    def __str__(self, html_name="dirname", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    dirname: str | None = None
 
 
 @dataclass
@@ -496,20 +380,12 @@ class Disabled(_Attr):
 
     disabled: bool = False
 
-    def __str__(self, html_name="disabled", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Disablepictureinpicture(_Attr):
     """Disables Picture-in-Picture context menu and automatic switching"""
 
     disablepictureinpicture: bool = False
-
-    def __str__(
-        self, html_name="disablepictureinpicture", default_value=False, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
 
 
 @dataclass
@@ -518,11 +394,6 @@ class Disableremoteplayback(_Attr):
 
     disableremoteplayback: bool = False
 
-    def __str__(
-        self, html_name="disableremoteplayback", default_value=False, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Download(_Attr):
@@ -530,128 +401,89 @@ class Download(_Attr):
 
     download: bool | str = False
 
-    def __str__(self, html_name="download", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Draggable(_Attr):
     """Specifies whether an element is draggable or not"""
 
-    draggable: str = None
-
-    def __str__(self, html_name="draggable", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    draggable: str | None = None
 
 
 @dataclass
 class Elementtiming(_Attr):
     """Indicates that an element is flagged for tracking by PerformanceObserver objects"""
 
-    elementtiming: str = None
-
-    def __str__(self, html_name="elementtiming", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    elementtiming: str | None = None
 
 
 @dataclass
 class Enctype(_Attr):
     """Specifies how the form-data should be encoded when submitting it to the server (only for `method="post"`)"""
 
-    enctype: str = None
-
-    def __str__(self, html_name="enctype", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    enctype: str | None = None
 
 
 @dataclass
 class Enterkeyhint(_Attr):
     """Specifies the text of the enter-key on a virtual keyboard"""
 
-    enterkeyhint: str = None
-
-    def __str__(self, html_name="enterkeyhint", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    enterkeyhint: str | None = None
 
 
 @dataclass
 class EventAttrs(_Attr):
     """A Python dictionary of event attributes (`onclick`, etc)"""
 
-    event_attrs: dict = None
-
-    def __str__(self, html_name="", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    event_attrs: dict | None = None
 
 
 @dataclass
 class Exportparts(_Attr):
     """Allows to select and style elements existing in nested shadow trees by exporting their `part` names"""
 
-    exportparts: str = None
-
-    def __str__(self, html_name="exportparts", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    exportparts: str | None = None
 
 
 @dataclass
 class Fetchpriority(_Attr):
     """Indicates how to fetch a particular image relative to other images"""
 
-    fetchpriority: str = None
-
-    def __str__(self, html_name="fetchpriority", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    fetchpriority: str | None = None
 
 
 @dataclass
 class For(_Attr):
     """Specifies which form element(s) a label/calculation is bound to"""
 
-    for_: str = None
-
-    def __str__(self, html_name="for", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    for_: str | None = None
 
 
 @dataclass
 class Form(_Attr):
     """Specifies the name of the form the element belongs to"""
 
-    form: str = None
-
-    def __str__(self, html_name="form", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    form: str | None = None
 
 
 @dataclass
 class Formaction(_Attr):
     """Specifies where to send the form-data when a form is submitted (for `type="submit"`)"""
 
-    formaction: str = None
-
-    def __str__(self, html_name="formaction", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    formaction: str | None = None
 
 
 @dataclass
 class Formenctype(_Attr):
     """If the button/input has `type="submit"`, sets the encoding type to use"""
 
-    formenctype: str = None
-
-    def __str__(self, html_name="formenctype", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    formenctype: str | None = None
 
 
 @dataclass
 class Formmethod(_Attr):
     """If the button/input has `type="submit"`, sets the submission method to use"""
 
-    formmethod: str = None
-
-    def __str__(self, html_name="formmethod", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    formmethod: str | None = None
 
 
 @dataclass
@@ -660,38 +492,26 @@ class Formnovalidate(_Attr):
 
     formnovalidate: bool = False
 
-    def __str__(self, html_name="formnovalidate", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Formtarget(_Attr):
     """If the button/input has `type="submit"`, specifies the browsing context (tab, window, etc) in which to display the response"""
 
-    formtarget: str = None
-
-    def __str__(self, html_name="formtarget", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    formtarget: str | None = None
 
 
 @dataclass
 class Headers(_Attr):
     """Specifies one or more headers cells a cell is related to"""
 
-    headers: str = None
-
-    def __str__(self, html_name="headers", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    headers: str | None = None
 
 
 @dataclass
 class Height(_Attr):
     """Specifies the height of the element"""
 
-    height: str = None
-
-    def __str__(self, html_name="height", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    height: str | None = None
 
 
 @dataclass
@@ -700,78 +520,56 @@ class Hidden(_Attr):
 
     hidden: bool = False
 
-    def __str__(self, html_name="hidden", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class High(_Attr):
     """Specifies the range that is considered to be a high value"""
 
-    high: str = None
-
-    def __str__(self, html_name="high", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    high: str | None = None
 
 
 @dataclass
 class Href(_Attr):
     """Specifies the URL of the page the link goes to"""
 
-    href: str = None
-
-    def __str__(self, html_name="href", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    href: str | None = None
 
 
 @dataclass
 class Hreflang(_Attr):
     """Specifies the language of the linked document"""
 
-    hreflang: str = None
-
-    def __str__(self, html_name="hreflang", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    hreflang: str | None = None
 
 
 @dataclass
 class HttpEquiv(_Attr):
     """Provides an HTTP header for the information/value of the content attribute"""
 
-    http_equiv: str = None
-
-    def __str__(self, html_name="http-equiv", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    http_equiv: str | None = None
 
 
 @dataclass
 class Id(_Attr):
     """Specifies a unique id for an element"""
 
-    id: str = None
-
-    def __str__(self, html_name="id", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    id: str | None = None
 
 
 @dataclass
 class Imagesizes(_Attr):
     """`sizes` alternative for `rel="preload" as="image"`"""
 
-    imagesizes: str = None
-
-    def __str__(self, html_name="imagesizes", default_value=None, sep=",") -> str:
-        return super().__str__(html_name, default_value, sep)
+    imagesizes: str | None = None
+    _imagesizes_sep: str = ","
 
 
 @dataclass
 class Imagesrcset(_Attr):
     """`srcset` alternative for `rel="preload" as="image"`"""
 
-    imagesrcset: str = None
-
-    def __str__(self, html_name="imagesrcset", default_value=None, sep=",") -> str:
-        return super().__str__(html_name, default_value, sep)
+    imagesrcset: str | None = None
+    _imagesrcset_sep: str = ","
 
 
 @dataclass
@@ -780,9 +578,6 @@ class Incremental(_Attr):
 
     incremental: bool = False
 
-    def __str__(self, html_name="incremental", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Inert(_Attr):
@@ -790,12 +585,9 @@ class Inert(_Attr):
 
     inert: bool = False
 
-    def __str__(self, html_name="inert", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
-class InnerHTML(_Attr):
+class InnerHTML:
     """Contents of a container tag (`<tag>`inner_html`</tag>`)"""
 
     inner_html: list = field(default_factory=list)
@@ -804,8 +596,8 @@ class InnerHTML(_Attr):
         if not isinstance(self.inner_html, list):
             self.inner_html = [self.inner_html]
 
-    def __str__(self, html_name="", default_value=None, sep="") -> str:
-        return sep.join(str(x) for x in self.inner_html)
+    def __str__(self):
+        return "".join(str(x) for x in self.inner_html)
 
     def __getitem__(self, index):
         try:
@@ -836,30 +628,21 @@ class InnerHTML(_Attr):
 class Inputmode(_Attr):
     """Specifies the mode of a virtual keyboard"""
 
-    inputmode: str = None
-
-    def __str__(self, html_name="inputmode", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    inputmode: str | None = None
 
 
 @dataclass
 class Integrity(_Attr):
     """Specifies a Subresource Integrity value that allows browsers to verify what they fetch"""
 
-    integrity: str = None
-
-    def __str__(self, html_name="integrity", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    integrity: str | None = None
 
 
 @dataclass
 class Is(_Attr):
     """Specifies that a standard HTML element should behave like a registered custom built-in element"""
 
-    is_: str = None
-
-    def __str__(self, html_name="is", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    is_: str | None = None
 
 
 @dataclass
@@ -868,38 +651,26 @@ class Ismap(_Attr):
 
     ismap: bool = False
 
-    def __str__(self, html_name="ismap", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Itemid(_Attr):
     """The unique, global identifier of an item"""
 
-    itemid: str = None
-
-    def __str__(self, html_name="itemid", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    itemid: str | None = None
 
 
 @dataclass
 class Itemprop(_Attr):
     """Adds properties to an item"""
 
-    itemprop: str = None
-
-    def __str__(self, html_name="itemprop", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    itemprop: str | None = None
 
 
 @dataclass
 class Itemref(_Attr):
     """Creates associations for properties that are not descendants of an element with the `itemscope` attribute"""
 
-    itemref: str = None
-
-    def __str__(self, html_name="itemref", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    itemref: str | None = None
 
 
 @dataclass
@@ -908,18 +679,12 @@ class Itemscope(_Attr):
 
     itemscope: bool = False
 
-    def __str__(self, html_name="itemscope", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Itemtype(_Attr):
     """Specifies the URL of the vocabulary that will be used to define item properties in the data structure"""
 
-    itemtype: str = None
-
-    def __str__(self, html_name="itemtype", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    itemtype: str | None = None
 
 
 @dataclass
@@ -928,48 +693,33 @@ class Kind(_Attr):
 
     kind: str = "subtitles"
 
-    def __str__(self, html_name="kind", default_value="subtitles", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Label(_Attr):
     """Specifies the title of the text track"""
 
-    label: str = None
-
-    def __str__(self, html_name="label", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    label: str | None = None
 
 
 @dataclass
 class Lang(_Attr):
     """Specifies the language of the element's content"""
 
-    lang: str = None
-
-    def __str__(self, html_name="lang", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    lang: str | None = None
 
 
 @dataclass
 class List(_Attr):
     """Refers to a `<datalist>` element that contains pre-defined options for an `<input>` element"""
 
-    list: str = None
-
-    def __str__(self, html_name="list", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    list: str | None = None
 
 
 @dataclass
 class Loading(_Attr):
     """Indicates if the element should be loaded lazily (`loading="lazy"`) or loaded immediately (`loading="eager"`)"""
 
-    loading: str = None
-
-    def __str__(self, html_name="loading", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    loading: str | None = None
 
 
 @dataclass
@@ -978,78 +728,54 @@ class Loop(_Attr):
 
     loop: bool = False
 
-    def __str__(self, html_name="loop", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Low(_Attr):
     """Specifies the range that is considered to be a low value"""
 
-    low: str = None
-
-    def __str__(self, html_name="low", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    low: str | None = None
 
 
 @dataclass
 class Max(_Attr):
     """Specifies the maximum value"""
 
-    max: str = None
-
-    def __str__(self, html_name="max", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    max: str | None = None
 
 
 @dataclass
 class Maxlength(_Attr):
     """Specifies the maximum number of characters allowed in an element"""
 
-    maxlength: str = None
-
-    def __str__(self, html_name="maxlength", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    maxlength: str | None = None
 
 
 @dataclass
 class Media(_Attr):
     """Specifies what media/device the linked document is optimized for"""
 
-    media: str = None
-
-    def __str__(self, html_name="media", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    media: str | None = None
 
 
 @dataclass
 class Method(_Attr):
     """Specifies the HTTP method to use when sending form-data"""
 
-    method: str = None
-
-    def __str__(self, html_name="method", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    method: str | None = None
 
 
 @dataclass
 class Min(_Attr):
     """Specifies the minimum value"""
 
-    min: str = None
-
-    def __str__(self, html_name="min", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    min: str | None = None
 
 
 @dataclass
 class Minlength(_Attr):
     """Specifies the minimum number of characters allowed in an element"""
 
-    minlength: str = None
-
-    def __str__(self, html_name="minlength", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    minlength: str | None = None
 
 
 @dataclass
@@ -1058,9 +784,6 @@ class Multiple(_Attr):
 
     multiple: bool = False
 
-    def __str__(self, html_name="multiple", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Muted(_Attr):
@@ -1068,18 +791,12 @@ class Muted(_Attr):
 
     muted: bool = False
 
-    def __str__(self, html_name="muted", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Name(_Attr):
     """Specifies the name of the element"""
 
-    name: str = None
-
-    def __str__(self, html_name="name", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    name: str | None = None
 
 
 @dataclass
@@ -1088,18 +805,12 @@ class Nomodule(_Attr):
 
     nomodule: bool = False
 
-    def __str__(self, html_name="nomodule", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Nonce(_Attr):
     """Defines a cryptographic nonce"""
 
-    nonce: str = None
-
-    def __str__(self, html_name="nonce", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    nonce: str | None = None
 
 
 @dataclass
@@ -1108,9 +819,6 @@ class Novalidate(_Attr):
 
     novalidate: bool = False
 
-    def __str__(self, html_name="novalidate", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Open(_Attr):
@@ -1118,68 +826,47 @@ class Open(_Attr):
 
     open: bool = False
 
-    def __str__(self, html_name="open", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Optimum(_Attr):
     """Specifies what value is the optimal value for the gauge"""
 
-    optimum: str = None
-
-    def __str__(self, html_name="optimum", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    optimum: str | None = None
 
 
 @dataclass
 class Orient(_Attr):
     """Sets the orientation of the range slider"""
 
-    orient: str = None
-
-    def __str__(self, html_name="orient", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    orient: str | None = None
 
 
 @dataclass
 class Part(_Attr):
     """A space-separated list of the part names (`::part`) of the element"""
 
-    part: str = None
-
-    def __str__(self, html_name="part", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    part: str | None = None
 
 
 @dataclass
 class Pattern(_Attr):
     """Specifies a regular expression that an `<input>` element's value is checked against"""
 
-    pattern: str = None
-
-    def __str__(self, html_name="pattern", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    pattern: str | None = None
 
 
 @dataclass
 class Ping(_Attr):
     """A space-separated list of URLs to be notified if a user follows the hyperlink"""
 
-    ping: str = None
-
-    def __str__(self, html_name="ping", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    ping: str | None = None
 
 
 @dataclass
 class Placeholder(_Attr):
     """Specifies a short hint that describes the expected value of the element"""
 
-    placeholder: str = None
-
-    def __str__(self, html_name="placeholder", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    placeholder: str | None = None
 
 
 @dataclass
@@ -1188,60 +875,40 @@ class Playsinline(_Attr):
 
     playsinline: bool = False
 
-    def __str__(self, html_name="playsinline", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Popover(_Attr):
     """Specifies a popover element"""
 
-    popover: str = None
-
-    def __str__(self, html_name="popover", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    popover: str | None = None
 
 
 @dataclass
 class Popovertarget(_Attr):
     """Specifies which popover element is to be invoked"""
 
-    popovertarget: str = None
-
-    def __str__(self, html_name="popovertarget", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    popovertarget: str | None = None
 
 
 @dataclass
 class Popovertargetaction(_Attr):
     """Specifies what happens to the popover element when the button is clicked"""
 
-    popovertargetaction: str = None
-
-    def __str__(
-        self, html_name="popovertargetaction", default_value=None, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
+    popovertargetaction: str | None = None
 
 
 @dataclass
 class Poster(_Attr):
     """Specifies an image to be shown while the video is downloading, or until the user hits the play button"""
 
-    poster: str = None
-
-    def __str__(self, html_name="poster", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    poster: str | None = None
 
 
 @dataclass
 class Preload(_Attr):
     """Specifies if and how the author thinks the audio/video should be loaded when the page loads"""
 
-    preload: str = None
-
-    def __str__(self, html_name="preload", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    preload: str | None = None
 
 
 @dataclass
@@ -1250,38 +917,26 @@ class Readonly(_Attr):
 
     readonly: bool = False
 
-    def __str__(self, html_name="readonly", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Referrerpolicy(_Attr):
     """Specifies which referrer is sent when fetching the resource"""
 
-    referrerpolicy: str = None
-
-    def __str__(self, html_name="referrerpolicy", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    referrerpolicy: str | None = None
 
 
 @dataclass
 class Rel(_Attr):
     """Specifies the relationship between the current document and the linked document"""
 
-    rel: str = None
-
-    def __str__(self, html_name="rel", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    rel: str | None = None
 
 
 @dataclass
 class Results(_Attr):
     """The maximum number of items that should be displayed in the drop-down list of previous search queries"""
 
-    results: str = None
-
-    def __str__(self, html_name="results", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    results: str | None = None
 
 
 @dataclass
@@ -1290,9 +945,6 @@ class Required(_Attr):
 
     required: bool = False
 
-    def __str__(self, html_name="required", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Reversed(_Attr):
@@ -1300,18 +952,12 @@ class Reversed(_Attr):
 
     reversed: bool = False
 
-    def __str__(self, html_name="reversed", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Role(_Attr):
     """Defines an explicit role for an element for use by assistive technologies"""
 
-    role: str = None
-
-    def __str__(self, html_name="role", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    role: str | None = None
 
 
 @dataclass
@@ -1320,9 +966,6 @@ class Rows(_Attr):
 
     rows: str = "2"
 
-    def __str__(self, html_name="rows", default_value="2", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Rowspan(_Attr):
@@ -1330,28 +973,21 @@ class Rowspan(_Attr):
 
     rowspan: str = "1"
 
-    def __str__(self, html_name="rowspan", default_value="1", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Sandbox(_Attr):
     """Enables an extra set of restrictions for the content in an `<iframe>`"""
 
-    sandbox: str = None
+    sandbox: str | None = None
 
-    def __str__(self, html_name="sandbox", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    "sandbox"
 
 
 @dataclass
 class Scope(_Attr):
     """Specifies whether a header cell is a header for a column, row, or group of columns or rows"""
 
-    scope: str = None
-
-    def __str__(self, html_name="scope", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    scope: str | None = None
 
 
 @dataclass
@@ -1360,20 +996,12 @@ class Selected(_Attr):
 
     selected: bool = False
 
-    def __str__(self, html_name="selected", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Shadowrootclonable(_Attr):
     """Sets the value of the `clonable` property of a ShadowRoot created using this element"""
 
     shadowrootclonable: bool = False
-
-    def __str__(
-        self, html_name="shadowrootclonable", default_value=False, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
 
 
 @dataclass
@@ -1382,20 +1010,12 @@ class Shadowrootdelegatesfocus(_Attr):
 
     shadowrootdelegatesfocus: bool = False
 
-    def __str__(
-        self, html_name="shadowrootdelegatesfocus", default_value=False, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Shadowrootmode(_Attr):
     """Creates a shadow root for the parent element"""
 
-    shadowrootmode: str = None
-
-    def __str__(self, html_name="shadowrootmode", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    shadowrootmode: str | None = None
 
 
 @dataclass
@@ -1404,50 +1024,35 @@ class Shadowrootserializable(_Attr):
 
     shadowrootserializable: bool = False
 
-    def __str__(
-        self, html_name="shadowrootserializable", default_value=False, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Shape(_Attr):
     """Specifies the shape of the area"""
 
-    shape: str = None
-
-    def __str__(self, html_name="shape", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    shape: str | None = None
 
 
 @dataclass
 class Size(_Attr):
     """Specifies the width, in characters (for `<input>`), or the number of visible options (for `<select>`)"""
 
-    size: str = None
-
-    def __str__(self, html_name="size", default_value=None, sep=",") -> str:
-        return super().__str__(html_name, default_value, sep)
+    size: str | None = None
+    _size_sep: str = ","
 
 
 @dataclass
 class Sizes(_Attr):
     """Specifies the size of the linked resource"""
 
-    sizes: str = None
-
-    def __str__(self, html_name="sizes", default_value=None, sep=",") -> str:
-        return super().__str__(html_name, default_value, sep)
+    sizes: str | None = None
+    _sizes_sep: str = ","
 
 
 @dataclass
 class Slot(_Attr):
     """Assigns a slot in a shadow DOM shadow tree to an element"""
 
-    slot: str = None
-
-    def __str__(self, html_name="slot", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    slot: str | None = None
 
 
 @dataclass
@@ -1456,9 +1061,6 @@ class Span(_Attr):
 
     span: str = "1"
 
-    def __str__(self, html_name="span", default_value="1", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Spellcheck(_Attr):
@@ -1466,108 +1068,76 @@ class Spellcheck(_Attr):
 
     spellcheck: str = "true"
 
-    def __str__(self, html_name="spellcheck", default_value="true", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Src(_Attr):
     """Specifies the URL of the media file"""
 
-    src: str = None
-
-    def __str__(self, html_name="src", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    src: str | None = None
 
 
 @dataclass
 class Srcdoc(_Attr):
     """Specifies the HTML content of the page to show in the `<iframe>`"""
 
-    srcdoc: str = None
-
-    def __str__(self, html_name="srcdoc", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    srcdoc: str | None = None
 
 
 @dataclass
 class Srclang(_Attr):
     """Specifies the language of the track text data (required if `kind="subtitles"`)"""
 
-    srclang: str = None
-
-    def __str__(self, html_name="srclang", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    srclang: str | None = None
 
 
 @dataclass
 class Srcset(_Attr):
     """Specifies the URLs of the images to use in different situations"""
 
-    srcset: str = None
-
-    def __str__(self, html_name="srcset", default_value=None, sep=",") -> str:
-        return super().__str__(html_name, default_value, sep)
+    srcset: str | None = None
+    _srcset_sep: str = ","
 
 
 @dataclass
 class Start(_Attr):
     """Specifies the start value of an ordered list"""
 
-    start: str = None
-
-    def __str__(self, html_name="start", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    start: str | None = None
 
 
 @dataclass
 class Step(_Attr):
     """Specifies the legal number intervals for an input field"""
 
-    step: str = None
-
-    def __str__(self, html_name="step", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    step: str | None = None
 
 
 @dataclass
 class Style(_Attr):
     """Specifies an inline CSS style for an element"""
 
-    style: str = None
-
-    def __str__(self, html_name="style", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    style: str | None = None
 
 
 @dataclass
 class Tabindex(_Attr):
     """Specifies the tabbing order of an element"""
 
-    tabindex: str = None
-
-    def __str__(self, html_name="tabindex", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    tabindex: str | None = None
 
 
 @dataclass
 class Target(_Attr):
     """Specifies the target for where to open the linked document or where to submit the form"""
 
-    target: str = None
-
-    def __str__(self, html_name="target", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    target: str | None = None
 
 
 @dataclass
 class Title(_Attr):
     """Specifies extra information about an element"""
 
-    title: str = None
-
-    def __str__(self, html_name="title", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    title: str | None = None
 
 
 @dataclass
@@ -1576,50 +1146,33 @@ class Translate(_Attr):
 
     translate: str = "yes"
 
-    def __str__(self, html_name="translate", default_value="yes", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Type(_Attr):
     """Specifies the type of element"""
 
-    type: str = None
-
-    def __str__(self, html_name="type", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    type: str | None = None
 
 
 @dataclass
 class Usemap(_Attr):
     """Specifies an image as a client-side image map"""
 
-    usemap: str = None
-
-    def __str__(self, html_name="usemap", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    usemap: str | None = None
 
 
 @dataclass
 class Value(_Attr):
     """Specifies the value of the element"""
 
-    value: str = None
-
-    def __str__(self, html_name="value", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    value: str | None = None
 
 
 @dataclass
 class Virtualkeyboardpolicy(_Attr):
     """Controls the on-screen virtual keyboard behavior on devices where a hardware keyboard may not be available"""
 
-    virtualkeyboardpolicy: str = None
-
-    def __str__(
-        self, html_name="virtualkeyboardpolicy", default_value=None, sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
+    virtualkeyboardpolicy: str | None = None
 
 
 @dataclass
@@ -1628,18 +1181,12 @@ class Webkitdirectory(_Attr):
 
     webkitdirectory: bool = False
 
-    def __str__(self, html_name="webkitdirectory", default_value=False, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Width(_Attr):
     """Specifies the width of the element"""
 
-    width: str = None
-
-    def __str__(self, html_name="width", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    width: str | None = None
 
 
 @dataclass
@@ -1648,9 +1195,6 @@ class Wrap(_Attr):
 
     wrap: str = "soft"
 
-    def __str__(self, html_name="wrap", default_value="soft", sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Writingsuggestions(_Attr):
@@ -1658,17 +1202,9 @@ class Writingsuggestions(_Attr):
 
     writingsuggestions: str = "true"
 
-    def __str__(
-        self, html_name="writingsuggestions", default_value="true", sep=" "
-    ) -> str:
-        return super().__str__(html_name, default_value, sep)
-
 
 @dataclass
 class Xmlns(_Attr):
     """Specifies the XML Namespace of the document"""
 
-    xmlns: str = None
-
-    def __str__(self, html_name="xmlns", default_value=None, sep=" ") -> str:
-        return super().__str__(html_name, default_value, sep)
+    xmlns: str | None = None

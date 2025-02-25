@@ -15,10 +15,10 @@ This library was born when I needed to convert English lesson plans from JSON to
 
 ### Attribute types and defaults
 
-Boolean Python values behave according to the logic of boolean HTML attributes. `autofocus` is turned off by default, so `autofocus=False` doesn't lead to redundancies.
+Boolean Python values behave according to the logic of boolean HTML attributes. `autofocus` is turned off by default, so `autofocus=False` doesn't lead to redundancies. The same goes for `autocorrect="on"`, which is the default value.
 
 ```python
-b = pyghtml.Button(title="Plan B", disabled=True, autofocus=False)
+b = pyghtml.Button(title="Home", disabled=True, autofocus=False, autocorrect="on")
 print(b)
 ```
 
@@ -61,7 +61,7 @@ produces:
 ## Future improvements
 
 - [x] Add attribute docstrings
-- [ ] Add tag docstrings
+- [x] Add tag docstrings
 - [ ] Add attribute validation
 - [ ] Add tag validation
 - [ ] Add recipes (`LinkStylesheet` with pre-set `rel`, etc)

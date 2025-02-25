@@ -1,6 +1,7 @@
 """HTML tags as classes"""
 
 from dataclasses import dataclass, replace
+from typing import override
 from . import html_attributes as attr
 
 
@@ -47,20 +48,18 @@ class _Tag(
 ):
     """The highest-level parent class of all other elements that stores global attributes. Returns tag `<None />`. Don't use in production"""
 
-    _tag = None
+    _tag: str | None = None
 
-    def __str__(self, *args, **kwargs) -> str:
+    def _attrs_to_str(self):
+        """Stringifies attributes"""
+
+        return super().__str__()
+
+    @override
+    def __str__(self) -> str:
 
         tag = str(self.__class__._tag)
-
-        attrs = ""
-
-        for cls in self.__class__.mro():
-            for key, value in self.__dict__.items():
-                if key in cls.__dict__:
-                    temp = f"{str(cls(value))}"
-                    if temp != "":
-                        attrs += f" {temp}"
+        attrs = self._attrs_to_str()
 
         return f"<{tag}{attrs} />"
 
@@ -72,22 +71,12 @@ class _Container(
 ):
     """The parent class of all container elements that stores global attributes and an `inner_html` placeholder. Returns tag `<None></None>`. Don't use in production"""
 
+    @override
     def __str__(self) -> str:
 
         tag = str(self.__class__._tag)
-
         inner_html = attr.InnerHTML.__str__(self)
-
-        attrs = ""
-
-        for cls in self.__class__.mro():
-            for key, value in self.__dict__.items():
-                if key == "inner_html":
-                    continue
-                if key in cls.__dict__:
-                    temp = f"{str(cls(value))}"
-                    if temp != "":
-                        attrs += f" {temp}"
+        attrs = _Tag._attrs_to_str(self)
 
         return f"<{tag}{attrs}>{inner_html}</{tag}>"
 
