@@ -26,6 +26,9 @@ class _Attr:
             default_value = self.__dataclass_fields__[key].default
             if value == default_value:
                 continue
+            # including `1` as `"1"`
+            if type(default_value) == int and value == str(default_value):
+                continue
 
             html_name = key_pure.replace("_", "-")
 
@@ -45,8 +48,9 @@ class _Attr:
                         attrs_str += f' {k}="{str(v)}"'
                 continue
 
-            if f"_{key_pure}_sep" in attrs:
-                sep = attrs[f"_{key_pure}_sep"]
+            types = str(self.__dataclass_fields__[key].type).split(" | ")
+            if types[0] == "list":
+                sep = ", "
             else:
                 sep = " "
 
@@ -223,21 +227,21 @@ class Cite(_Attr):
 class Class(_Attr):
     """Specifies one or more class names for an element (refers to a class in a style sheet)"""
 
-    class_: str | None = None
+    class_: str | list | None = None
 
 
 @dataclass
 class Cols(_Attr):
     """Specifies the visible width of a text area"""
 
-    cols: str = "20"
+    cols: str | int = 20
 
 
 @dataclass
 class Colspan(_Attr):
     """Specifies the number of columns a table cell should span"""
 
-    colspan: str = "1"
+    colspan: str | int = 1
 
 
 @dataclass
@@ -258,8 +262,7 @@ class Commandfor(_Attr):
 class Content(_Attr):
     """Gives the value associated with the `http-equiv` or `name` attribute"""
 
-    content: str | None = None
-    _content_sep: str = ","
+    content: list | str | None = None
 
 
 @dataclass
@@ -560,16 +563,14 @@ class Id(_Attr):
 class Imagesizes(_Attr):
     """`sizes` alternative for `rel="preload" as="image"`"""
 
-    imagesizes: str | None = None
-    _imagesizes_sep: str = ","
+    imagesizes: list | str | None = None
 
 
 @dataclass
 class Imagesrcset(_Attr):
     """`srcset` alternative for `rel="preload" as="image"`"""
 
-    imagesrcset: str | None = None
-    _imagesrcset_sep: str = ","
+    imagesrcset: list | str | None = None
 
 
 @dataclass
@@ -964,14 +965,14 @@ class Role(_Attr):
 class Rows(_Attr):
     """Specifies the visible number of lines in a text area"""
 
-    rows: str = "2"
+    rows: str | int = 2
 
 
 @dataclass
 class Rowspan(_Attr):
     """Specifies the number of rows a table cell should span"""
 
-    rowspan: str = "1"
+    rowspan: str | int = 1
 
 
 @dataclass
@@ -1036,16 +1037,14 @@ class Shape(_Attr):
 class Size(_Attr):
     """Specifies the width, in characters (for `<input>`), or the number of visible options (for `<select>`)"""
 
-    size: str | None = None
-    _size_sep: str = ","
+    size: list | str | None = None
 
 
 @dataclass
 class Sizes(_Attr):
     """Specifies the size of the linked resource"""
 
-    sizes: str | None = None
-    _sizes_sep: str = ","
+    sizes: list | str | None = None
 
 
 @dataclass
@@ -1059,7 +1058,7 @@ class Slot(_Attr):
 class Span(_Attr):
     """Specifies the number of columns to span"""
 
-    span: str = "1"
+    span: str | int = 1
 
 
 @dataclass
@@ -1094,8 +1093,7 @@ class Srclang(_Attr):
 class Srcset(_Attr):
     """Specifies the URLs of the images to use in different situations"""
 
-    srcset: str | None = None
-    _srcset_sep: str = ","
+    srcset: list | str | None = None
 
 
 @dataclass

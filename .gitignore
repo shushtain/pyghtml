@@ -16,3 +16,7 @@
 # Ignore all local history of files
 .history
 .ionide
+
+# Python cache
+__pycache__/
+*.py[cod]
