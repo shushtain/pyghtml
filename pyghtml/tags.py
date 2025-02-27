@@ -1,8 +1,7 @@
 """HTML tags as classes"""
 
 from dataclasses import dataclass, replace
-from typing import override
-from . import html_attributes as attr
+from . import attributes as attr
 
 
 @dataclass
@@ -55,7 +54,6 @@ class _Tag(
 
         return super().__str__()
 
-    @override
     def __str__(self) -> str:
 
         tag = str(self.__class__._tag)
@@ -67,15 +65,14 @@ class _Tag(
 @dataclass
 class _Container(
     _Tag,
-    attr.InnerHTML,
+    attr.InnerHtml,
 ):
     """The parent class of all container elements that stores global attributes and an `inner_html` placeholder. Returns tag `<None></None>`. Don't use in production"""
 
-    @override
     def __str__(self) -> str:
 
         tag = str(self.__class__._tag)
-        inner_html = attr.InnerHTML.__str__(self)
+        inner_html = attr.InnerHtml.__str__(self)
         attrs = _Tag._attrs_to_str(self)
 
         return f"<{tag}{attrs}>{inner_html}</{tag}>"
@@ -99,12 +96,12 @@ class Doctype:
 
 
 @dataclass
-class CommentHTML(attr.InnerHTML):
+class CommentHtml(attr.InnerHtml):
     """Defines an HTML comment, `<!-- -->`"""
 
     def __str__(self, *args, **kwargs) -> str:
 
-        inner_html = attr.InnerHTML.__str__(self)
+        inner_html = attr.InnerHtml.__str__(self)
 
         return f"<!-- {inner_html} -->"
 

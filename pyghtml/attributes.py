@@ -26,8 +26,8 @@ class _Attr:
             default_value = self.__dataclass_fields__[key].default
             if value == default_value:
                 continue
-            # including `1` as `"1"`
-            if type(default_value) == int and value == str(default_value):
+            # including `1` as `"1"`, but not booleans
+            if type(default_value) is int and value == str(default_value):
                 continue
 
             html_name = key_pure.replace("_", "-")
@@ -588,7 +588,7 @@ class Inert(_Attr):
 
 
 @dataclass
-class InnerHTML:
+class InnerHtml:
     """Contents of a container tag (`<tag>`inner_html`</tag>`)"""
 
     inner_html: list = field(default_factory=list)

@@ -23,7 +23,7 @@ def fib_seq(length: int = 10) -> list:
 blocks = fib_seq(10)
 
 
-# *** Bulding parts of the page
+# *** Building parts of the page
 
 # *-- body
 

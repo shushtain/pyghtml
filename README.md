@@ -25,7 +25,7 @@ print(b)
 produces:
 
 ```html
-<button title="Plan B" disabled></button>
+<button title="Home" disabled></button>
 ```
 
 ### Simple container logic
@@ -45,18 +45,24 @@ print(list2)
 produces:
 
 ```html
-<ul><li>I'm Sawcon</li><li>Sawcon Deeznuts</li></ul>
-<ul><li>I'm Sawcon, too!</li></ul>
+<ul>
+    <li>I'm Sawcon</li>
+    <li>Sawcon Deeznuts</li>
+</ul>
+<ul>
+    <li>I'm Sawcon, too!</li>
+</ul>
 ```
 
 ## Additional notes
 
 - Self-closing tags are self-closing (`<br />`).
-- `<!DOCTYPE html>` is `Doctype()` and `<!-- -->` is `CommentHTML()`.
+- `<!DOCTYPE html>` is `Doctype()` and `<!-- -->` is `CommentHtml()`.
 - HTML attributes that match Python reserved words are suffixed with `_` (`class` is `class_`).
-- If the attribute's default value is `None`, that usually means there is no clear default value for it in the HTML spec (like the values controlled by the client-side agents when omitted).
-- Attributes like `alt` default to `None` because an omitted `alt` is not the same as `alt=""` from the accessibility standpoint.
+- If the attribute's default value is `None`, that usually means there is no clear default value for it in the HTML spec (like the values controlled by the client-side agents when omitted). Attributes like `alt` default to `None` because an omitted `alt` is not the same as `alt=""` from the accessibility standpoint.
 - `data-*`, `aria-*`, event (`onclick`, etc), and custom/missing attributes should be given as dictionaries through `data_attrs`, `aria_attrs`, `event_attrs`, `custom_attrs`. For example: `data_attrs = {"data-custom-name": "custom value"}`.
+- Abbreviations are broken: `Html()`, `Wbr()`. This may be debatable, but I thought that classes like `HttpEquiv()` and `AriaAttrs()` reflect `http-equiv` and `aria-*` much more clearly than `HTTPEquiv()` and `ARIAAttrs()` would do. Also, it's hard to keep in mind whether `bdi`, `bdo`, `src`, `ul`, `li`, `dt`, `dfn` count as abbreviations.
+- There are class names like `I()` for `<i></i>`, so please use a font that differentiates between `Il1`. JetBrains Mono, for instance.
 
 ## Future improvements
 
@@ -65,7 +71,7 @@ produces:
 - [ ] Add attribute validation
 - [ ] Add tag validation
 - [ ] Add recipes (`LinkStylesheet` with pre-set `rel`, etc)
-- [ ] Package for pip
+- [x] Package for pip
 
 ## Sources
 

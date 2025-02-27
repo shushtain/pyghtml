@@ -1,3 +1,3 @@
 """Library for building static HTML pages"""
 
-from .html_tags import *
+from .tags import *
