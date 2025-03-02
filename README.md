@@ -2,7 +2,7 @@
 
 Python-Generatable HTML
 
-> ⚠️ **Active Development**  
+> ⚠️ **In per-issue development**  
 > 🦐 Any help or critique is encouraged.
 
 ## Idea
@@ -11,7 +11,7 @@ This library was born when I needed to convert English lesson plans from JSON to
 
 > 💅 It's pie-tea-em-el, actually.
 
-## Core functionality
+## Features
 
 ### Attribute types and defaults
 
@@ -30,14 +30,12 @@ produces:
 
 ### Simple container logic
 
-Both `__add__` and `__iadd__` append the element on the right to the `inner_html` property of the element on the left (`__add__` returns a new instance). So you can use `+` or `+=` to put something inside a "tag".
-
-Containers are also subscriptable.
+All container tags support list operations that are applied on the `inner_html` property. You can return specific children, reverse their order, etc. You can use `+` or `+=` to put something inside a "tag" (`+` returns a new instance). And if you put a list of elements or strings inside a tag, it is automatically unpacked.
 
 ```python
 list1 = pyghtml.Ul() + pyghtml.Li(inner_html="I'm Sawcon")
 list2 = pyghtml.Ul() + (list1[0] + ", too!")
-list1 += pyghtml.Li() + "Sawcon Deeznuts"
+list1 += pyghtml.Li() + ["Sawcon", " ", "Deeznuts"]
 print(list1)
 print(list2)
 ```
@@ -52,6 +50,20 @@ produces:
 <ul>
     <li>I'm Sawcon, too!</li>
 </ul>
+```
+
+## Installation
+
+Run:
+
+```bash
+pip install pyghtml
+```
+
+Import:
+
+```python
+import pyghtml as html
 ```
 
 ## Additional notes

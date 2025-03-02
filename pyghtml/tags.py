@@ -1,6 +1,6 @@
 """HTML tags as classes"""
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass
 from . import attributes as attr
 
 
@@ -77,15 +77,6 @@ class _Container(
 
         return f"<{tag}{attrs}>{inner_html}</{tag}>"
 
-    def __add__(self, other):
-        temp = self.inner_html[:]
-        temp.append(other)
-        return replace(self, inner_html=temp)
-
-    def __iadd__(self, other):
-        self.inner_html.append(other)
-        return self
-
 
 @dataclass
 class Doctype:
@@ -104,15 +95,6 @@ class CommentHtml(attr.InnerHtml):
         inner_html = attr.InnerHtml.__str__(self)
 
         return f"<!-- {inner_html} -->"
-
-    def __add__(self, other):
-        temp = self.inner_html[:]
-        temp.append(other)
-        return replace(self, inner_html=temp)
-
-    def __iadd__(self, other):
-        self.inner_html.append(other)
-        return self
 
 
 @dataclass

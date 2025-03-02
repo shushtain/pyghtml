@@ -1,6 +1,6 @@
 """HTML attributes as classes"""
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 
 
 @dataclass
@@ -600,29 +600,84 @@ class InnerHtml:
     def __str__(self):
         return "".join(str(x) for x in self.inner_html)
 
+    def __len__(self):
+        return len(self.inner_html)
+
     def __getitem__(self, index):
-        try:
-            return self.inner_html[index]
-        except IndexError as e:
-            raise IndexError("Index out of range") from e
-        except TypeError as e:
-            raise TypeError("Index must be an integer or slice") from e
+        return self.inner_html[index]
 
     def __setitem__(self, index, value):
-        try:
-            self.inner_html[index] = value
-        except IndexError as e:
-            raise IndexError("Index out of range") from e
-        except TypeError as e:
-            raise TypeError("Index must be an integer or slice") from e
+        self.inner_html[index] = value
 
     def __delitem__(self, index):
-        try:
-            del self.inner_html[index]
-        except IndexError as e:
-            raise IndexError("Index out of range") from e
-        except TypeError as e:
-            raise TypeError("Index must be an integer or slice") from e
+        del self.inner_html[index]
+
+    def __iter__(self):
+        return iter(self.inner_html)
+
+    def __reversed__(self):
+        return reversed(self.inner_html)
+
+    def __contains__(self, item):
+        return item in self.inner_html
+
+    def append(self, other):
+        if isinstance(other, list):
+            for item in other:
+                self.inner_html.append(item)
+        else:
+            self.inner_html.append(other)
+
+    def extend(self, iterable):
+        self.inner_html.extend(iterable)
+
+    def insert(self, index, other):
+        if isinstance(other, list):
+            for i, item in enumerate(other):
+                if index > -1:
+                    self.inner_html.insert(index + i, item)
+                else:
+                    self.inner_html.insert(index, item)
+        else:
+            self.inner_html.insert(index, other)
+
+    def remove(self, item):
+        self.inner_html.remove(item)
+
+    def pop(self, index=-1):
+        return self.inner_html.pop(index)
+
+    def clear(self):
+        self.inner_html.clear()
+
+    def index(self, item, start=0, end=None):
+        return self.inner_html.index(item, start, end)
+
+    def count(self, item):
+        return self.inner_html.count(item)
+
+    def sort(self, *, key=None, reverse=False):
+        self.inner_html.sort(key=key, reverse=reverse)
+
+    def reverse(self):
+        self.inner_html.reverse()
+
+    def __add__(self, other):
+        temp = self.inner_html[:]
+        if isinstance(other, list):
+            for item in other:
+                temp.append(item)
+        else:
+            temp.append(other)
+        return replace(self, inner_html=temp)
+
+    def __iadd__(self, other):
+        if isinstance(other, list):
+            for item in other:
+                self.inner_html.append(item)
+        else:
+            self.inner_html.append(other)
+        return self
 
 
 @dataclass
