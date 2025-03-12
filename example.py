@@ -1,4 +1,4 @@
-""" This is an edge-case scenario where the page itself isn't complex but tedious to code manually. Surely we seldomly build layouts based on golden ratios, but hopefully it conveys how not only text may vary from page to page, but the layout itself (based on the number of sections in your JSON, etc)."""
+"""This is an edge-case scenario where the page itself isn't complex but tedious to code manually. Surely we seldomly build layouts based on golden ratios, but hopefully it conveys how not only text may vary from page to page, but the layout itself (based on the number of sections in your JSON, etc)."""
 
 import pyghtml as html
 

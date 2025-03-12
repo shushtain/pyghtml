@@ -22,6 +22,10 @@ class _Attr:
             if key == "inner_html":
                 continue
 
+            # skip None
+            if value is None:
+                continue
+
             # skip default values
             default_value = self.__dataclass_fields__[key].default
             if value == default_value:
@@ -42,10 +46,18 @@ class _Attr:
 
             if isinstance(value, dict):
                 for k, v in value.items():
+
+                    if v is None:
+                        continue
+
                     if isinstance(v, bool):
                         attrs_str += f" {k}" if v else ""
-                    elif isinstance(v, (str, int, float)):
+                        continue
+
+                    if isinstance(v, (str, int, float)):
                         attrs_str += f' {k}="{str(v)}"'
+                        continue
+
                 continue
 
             types = str(self.__dataclass_fields__[key].type).split(" | ")
@@ -55,7 +67,7 @@ class _Attr:
                 sep = " "
 
             if isinstance(value, list):
-                temp = sep.join(str(x) for x in value)
+                temp = sep.join(str(x) for x in value if x is not None)
                 attrs_str += f' {html_name}="{temp}"'
                 continue
 
