@@ -1,6 +1,7 @@
 """HTML attributes as classes"""
 
 from dataclasses import dataclass, field, replace
+from typing import Any
 
 
 @dataclass
@@ -31,7 +32,11 @@ class _Attr:
             if value == default_value:
                 continue
             # including `1` as `"1"`, but not booleans
-            if type(default_value) is int and value == str(default_value):
+            if (
+                isinstance(default_value, int)
+                and not isinstance(default_value, bool)
+                and value == str(default_value)
+            ):
                 continue
 
             html_name = key_pure.replace("_", "-")
@@ -603,7 +608,7 @@ class Inert(_Attr):
 class InnerHtml:
     """Contents of a container tag (`<tag>`inner_html`</tag>`)"""
 
-    inner_html: list = field(default_factory=list)
+    inner_html: list | Any = field(default_factory=list)
 
     def __post_init__(self):
         if not isinstance(self.inner_html, list):
@@ -634,6 +639,7 @@ class InnerHtml:
         return item in self.inner_html
 
     def append(self, other):
+        """Append to the `inner_html`."""
         if isinstance(other, list):
             for item in other:
                 self.inner_html.append(item)
@@ -641,9 +647,11 @@ class InnerHtml:
             self.inner_html.append(other)
 
     def extend(self, iterable):
+        """Extend the `inner_html` with an iterable."""
         self.inner_html.extend(iterable)
 
     def insert(self, index, other):
+        """Insert an item into the `inner_html` at a given position."""
         if isinstance(other, list):
             for i, item in enumerate(other):
                 if index > -1:
@@ -654,24 +662,31 @@ class InnerHtml:
             self.inner_html.insert(index, other)
 
     def remove(self, item):
+        """Remove an item from the `inner_html`."""
         self.inner_html.remove(item)
 
     def pop(self, index=-1):
+        """Remove and return an item from the `inner_html`."""
         return self.inner_html.pop(index)
 
     def clear(self):
+        """Clear the `inner_html`."""
         self.inner_html.clear()
 
     def index(self, item, start=0, end=None):
+        """Return the index of the first occurrence of an item in the `inner_html`."""
         return self.inner_html.index(item, start, end)
 
     def count(self, item):
+        """Return the number of occurrences of an item in the `inner_html`."""
         return self.inner_html.count(item)
 
     def sort(self, *, key=None, reverse=False):
+        """Sort the `inner_html` in place."""
         self.inner_html.sort(key=key, reverse=reverse)
 
     def reverse(self):
+        """Reverse the `inner_html` in place."""
         self.inner_html.reverse()
 
     def __add__(self, other):
