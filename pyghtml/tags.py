@@ -763,8 +763,9 @@ class Meta(
     attr.HttpEquiv,
     attr.Media,
     attr.Name,
+    attr.Property,
 ):
-    """Defines metadata about an HTML document"""
+    """Defines metadata for the HTML document"""
 
     _tag = "meta"
 

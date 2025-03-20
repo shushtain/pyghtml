@@ -995,6 +995,13 @@ class Preload(_Attr):
 
 
 @dataclass
+class Property(_Attr):
+    """Specifies the name of the meta property (Open Graph, etc)"""
+
+    property: str | None = None
+
+
+@dataclass
 class Readonly(_Attr):
     """Specifies that the element is read-only"""
 
