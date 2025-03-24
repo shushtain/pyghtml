@@ -1081,6 +1081,13 @@ class Sup(_Container):
 
 
 @dataclass
+class Svg(_Container):
+    """Defines a container for SVG graphics. For now, supports only basic html attributes to use with <use>"""
+
+    _tag = "svg"
+
+
+@dataclass
 class Table(_Container):
     """Defines a table"""
 
@@ -1219,6 +1226,20 @@ class Ul(_Container):
     """Defines an unordered list"""
 
     _tag = "ul"
+
+
+@dataclass
+class Use(
+    _Tag,
+    attr.Height,
+    attr.Href,
+    attr.Width,
+    attr.X,
+    attr.Y,
+):
+    """Puts nodes of the linked SVG into the current SVG"""
+
+    _tag = "use"
 
 
 @dataclass

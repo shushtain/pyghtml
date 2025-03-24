@@ -1291,7 +1291,20 @@ class Writingsuggestions(_Attr):
 
 
 @dataclass
+class X(_Attr):
+    """Specifies the x-coordinate of the left-top corner of the area"""
+
+    x: str | int = 0
+
+
 class Xmlns(_Attr):
     """Specifies the XML Namespace of the document"""
 
     xmlns: str | None = None
+
+
+@dataclass
+class Y(_Attr):
+    """Specifies the y-coordinate of the left-top corner of the area"""
+
+    y: str | int = 0
