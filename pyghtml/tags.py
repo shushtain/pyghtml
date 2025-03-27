@@ -1,6 +1,7 @@
 """HTML tags as classes"""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
+
 from . import attributes as attr
 
 
@@ -49,16 +50,37 @@ class _Tag(
 
     _tag: str | None = None
 
-    def _attrs_to_str(self):
-        """Stringifies attributes"""
+    def __post_init__(self):
+        if isinstance(self, attr.InnerHtml):
+            attr.InnerHtml.__post_init__(self)
+        # If we're in a container context, add self to it
+        container = getattr(attr._context, "container", None)
+        if container is not None and container is not self:
+            container.inner_html.append(self)
 
+    # error handling for using `with` with non-container elements
+    def __enter__(self):
+        if not isinstance(self, attr.InnerHtml):
+            raise TypeError(
+                f"'<{self.__class__._tag} />' is not a container and cannot be used with 'with' statement."
+            )
+        return super().__enter__()
+
+    def attrs_to_str(self):
+        """Stringifies modified attributes"""
         return super().__str__()
 
-    def __str__(self) -> str:
+    def tag(self) -> str | None:
+        """Returns the html tag name"""
+        return self.__class__._tag
 
+    def copy(self):
+        """Returns a copy of the element"""
+        return replace(self)
+
+    def __str__(self):
         tag = str(self.__class__._tag)
-        attrs = self._attrs_to_str()
-
+        attrs = self.attrs_to_str()
         return f"<{tag}{attrs} />"
 
 
@@ -69,12 +91,10 @@ class _Container(
 ):
     """The parent class of all container elements that stores global attributes and an `inner_html` placeholder. Returns tag `<None></None>`. Don't use in production"""
 
-    def __str__(self) -> str:
-
+    def __str__(self):
         tag = str(self.__class__._tag)
         inner_html = attr.InnerHtml.__str__(self)
-        attrs = _Tag._attrs_to_str(self)
-
+        attrs = self.attrs_to_str()
         return f"<{tag}{attrs}>{inner_html}</{tag}>"
 
 

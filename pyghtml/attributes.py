@@ -1,7 +1,14 @@
 """HTML attributes as classes"""
 
 from dataclasses import dataclass, field, replace
+from collections.abc import MutableSequence
 from typing import Any
+import threading
+
+
+# * for InnerHtml
+# Thread-local storage ensures each thread has its own independent context
+_context = threading.local()
 
 
 @dataclass
@@ -9,29 +16,21 @@ class _Attr:
     """The parent class of all attributes. Don't use in production"""
 
     def __str__(self) -> str:
-        attrs = self.__dict__
-        attrs_str = ""
-        for key, value in attrs.items():
+        attrs = []
 
-            key_pure = key[:-1] if key[-1] == "_" else key
+        for key, value in self.__dict__.items():
 
-            # skip "service" arguments
-            if key[0] == "_":
+            # skip "service" arguments, inner_html and placeholder values
+            if key.startswith("_") or key == "inner_html" or value is None:
                 continue
 
-            # skip inner_html as a quasi-attribute
-            if key == "inner_html":
-                continue
+            key_pure = key.rstrip("_")
+            html_name = key_pure.replace("_", "-")
 
-            # skip None
-            if value is None:
-                continue
-
-            # skip default values
+            # skip default values, including 1 as "1"
             default_value = self.__dataclass_fields__[key].default
             if value == default_value:
                 continue
-            # including `1` as `"1"`, but not booleans
             if (
                 isinstance(default_value, int)
                 and not isinstance(default_value, bool)
@@ -39,44 +38,47 @@ class _Attr:
             ):
                 continue
 
-            html_name = key_pure.replace("_", "-")
-
-            if isinstance(value, bool):
-                attrs_str += f" {html_name}" if value else ""
+            # boolean attributes
+            if isinstance(value, bool) and value:
+                attrs.append(html_name)
                 continue
 
+            # string and number attributes
             if isinstance(value, (str, int, float)):
-                attrs_str += f' {html_name}="{str(value)}"'
+                attrs.append(f'{html_name}="{str(value)}"')
                 continue
 
+            # attribute groups
             if isinstance(value, dict):
                 for k, v in value.items():
 
                     if v is None:
                         continue
 
-                    if isinstance(v, bool):
-                        attrs_str += f" {k}" if v else ""
+                    if isinstance(v, bool) and v:
+                        attrs.append(k)
                         continue
 
                     if isinstance(v, (str, int, float)):
-                        attrs_str += f' {k}="{str(v)}"'
+                        attrs.append(f'{k}="{str(v)}"')
                         continue
 
                 continue
 
-            types = str(self.__dataclass_fields__[key].type).split(" | ")
-            if types[0] == "list":
+            # value sequences
+
+            types = str(self.__dataclass_fields__[key].type).split("|")
+            if types[0].strip() == "list":
                 sep = ", "
             else:
                 sep = " "
 
             if isinstance(value, list):
-                temp = sep.join(str(x) for x in value if x is not None)
-                attrs_str += f' {html_name}="{temp}"'
+                values = sep.join(str(x) for x in value if x is not None)
+                attrs.append(f'{html_name}="{values}"')
                 continue
 
-        return attrs_str
+        return " " + " ".join(attrs) if attrs else ""
 
 
 @dataclass
@@ -605,103 +607,59 @@ class Inert(_Attr):
 
 
 @dataclass
-class InnerHtml:
+class InnerHtml(MutableSequence):
     """Contents of a container tag (`<tag>`inner_html`</tag>`)"""
 
     inner_html: list | Any = field(default_factory=list)
+
+    # Used to keep track of the container context
+    _container: Any = None
 
     def __post_init__(self):
         if not isinstance(self.inner_html, list):
             self.inner_html = [self.inner_html]
 
     def __str__(self):
-        return "".join(str(x) for x in self.inner_html)
+        return "".join(str(x) for x in self.inner_html) if self.inner_html else ""
+
+    def __enter__(self):
+        self._container = getattr(_context, "container", None)
+        _context.container = self
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        _context.container = self._container
+        self._container = None
 
     def __len__(self):
         return len(self.inner_html)
 
-    def __getitem__(self, index):
-        return self.inner_html[index]
+    def __setitem__(self, key, value):
+        self.inner_html[key] = value
 
-    def __setitem__(self, index, value):
-        self.inner_html[index] = value
+    def __getitem__(self, key):
+        return self.inner_html[key]
 
-    def __delitem__(self, index):
-        del self.inner_html[index]
+    def __delitem__(self, key):
+        del self.inner_html[key]
+
+    def insert(self, index, value):
+        self.inner_html.insert(index, value)
 
     def __iter__(self):
         return iter(self.inner_html)
 
-    def __reversed__(self):
-        return reversed(self.inner_html)
-
     def __contains__(self, item):
         return item in self.inner_html
 
-    def append(self, other):
-        """Append to the `inner_html`."""
-        if isinstance(other, list):
-            for item in other:
-                self.inner_html.append(item)
-        else:
-            self.inner_html.append(other)
-
-    def extend(self, iterable):
-        """Extend the `inner_html` with an iterable."""
-        self.inner_html.extend(iterable)
-
-    def insert(self, index, other):
-        """Insert an item into the `inner_html` at a given position."""
-        if isinstance(other, list):
-            for i, item in enumerate(other):
-                if index > -1:
-                    self.inner_html.insert(index + i, item)
-                else:
-                    self.inner_html.insert(index, item)
-        else:
-            self.inner_html.insert(index, other)
-
-    def remove(self, item):
-        """Remove an item from the `inner_html`."""
-        self.inner_html.remove(item)
-
-    def pop(self, index=-1):
-        """Remove and return an item from the `inner_html`."""
-        return self.inner_html.pop(index)
-
-    def clear(self):
-        """Clear the `inner_html`."""
-        self.inner_html.clear()
-
-    def index(self, item, start=0, end=None):
-        """Return the index of the first occurrence of an item in the `inner_html`."""
-        return self.inner_html.index(item, start, end)
-
-    def count(self, item):
-        """Return the number of occurrences of an item in the `inner_html`."""
-        return self.inner_html.count(item)
-
-    def sort(self, *, key=None, reverse=False):
-        """Sort the `inner_html` in place."""
-        self.inner_html.sort(key=key, reverse=reverse)
-
-    def reverse(self):
-        """Reverse the `inner_html` in place."""
-        self.inner_html.reverse()
-
     def __add__(self, other):
-        temp = self.inner_html[:]
         if isinstance(other, list):
-            for item in other:
-                temp.append(item)
-        else:
-            temp.append(other)
-        return replace(self, inner_html=temp)
+            return replace(self, inner_html=self.inner_html + other)
+        return replace(self, inner_html=self.inner_html + [other])
 
     def __iadd__(self, other):
         if isinstance(other, list):
-            for item in other:
-                self.inner_html.append(item)
+            self.inner_html.extend(other)
         else:
             self.inner_html.append(other)
         return self
