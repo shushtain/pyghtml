@@ -2,8 +2,8 @@
 
 Python-Generatable HTML
 
-> ⚠️ **In per-issue development**  
-> 🦐 Any help or critique is encouraged.
+> ⚠️ **This package is deprecated**
+> While it was a fun experiment with interesting ways to add sugar, I don't want to invest time re-implementing all the rules and exceptions of HTML. Without that, you could just create a class that takes a tag name and a couple attribute fields and parses them into HTML string, because you will have to reference actual HTML anyway.  
 
 ## Idea
 
